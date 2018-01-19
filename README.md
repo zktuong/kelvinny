@@ -54,6 +54,6 @@ plotHeat(data, col="viridis")
 ```
 ![heatmap](exampleImages/heat2.png)
 ```R
-plotHeat(data, col=c("green","black","red")
+plotHeat(data, col=c("green","black","red"))
 ```
 ![heatmap](exampleImages/heat3.png)
