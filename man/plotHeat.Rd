@@ -19,6 +19,8 @@ plotHeat(dm, color = "RdWhBlu", scale = "row", show_colnames = TRUE,
 
 \item{cluster_rows}{see ?pheatmap}
 
+\item{cluster_cols}{see ?pheatmap}
+
 \item{fontsize}{see ?pheatmap}
 
 \item{n}{see ?viridis}
@@ -28,8 +30,6 @@ plotHeat(dm, color = "RdWhBlu", scale = "row", show_colnames = TRUE,
 \item{direction}{see ?viridis}
 
 \item{data}{A data frame containing values of interest. Genes in rows, samples across columns.}
-
-\item{clsuter_cols}{see ?pheatmap}
 }
 \value{
 A wrapper for pheatmap.

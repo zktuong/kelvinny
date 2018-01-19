@@ -6,7 +6,7 @@
 #' @param show_colnames see ?pheatmap
 #' @param show_rownames see ?pheatmap
 #' @param cluster_rows see ?pheatmap
-#' @param clsuter_cols see ?pheatmap
+#' @param cluster_cols see ?pheatmap
 #' @param fontsize see ?pheatmap
 #' @param n see ?viridis
 #' @param option see ?viridis
