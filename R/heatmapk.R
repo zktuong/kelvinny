@@ -29,7 +29,7 @@
 #' @import RColorBrewer
 #' @import viridis
 #' @export
-plotHeat <- function(d , color="RdWhBlu", scale="row", show_colnames=TRUE, show_rownames=TRUE cluster_rows=TRUE, cluster_cols=TRUE, fontsize=9, n=50, option="D", direction=1, ...) {
+plotHeat <- function(d , color="RdWhBlu", scale="row", show_colnames=TRUE, show_rownames=TRUE, cluster_rows=TRUE, cluster_cols=TRUE, fontsize=9, n=50, option="D", direction=1, ...) {
   if(class(d[,1]) != "numeric") {
   rnames <- d[,1] # assign labels in column 1 to "rnames"
   mat_data <- data.matrix(d[,2:ncol(m)])    # transform column 2 to last column into a matrix

@@ -4,9 +4,9 @@
 \alias{plotHeat}
 \title{Plotting a heatmap using pheatmap}
 \usage{
-plotHeat(dm, color = "RdWhBlu", scale = "row", show_colnames = TRUE,
+plotHeat(d, color = "RdWhBlu", scale = "row", show_colnames = TRUE,
   show_rownames = TRUE, cluster_rows = TRUE, cluster_cols = TRUE,
-  fontsize = 9, n = 50, option = "D", direction = 1)
+  fontsize = 9, n = 50, option = "D", direction = 1, ...)
 }
 \arguments{
 \item{color}{A string for what colours you want. e.g. c("blue","white,"red")}
@@ -28,6 +28,8 @@ plotHeat(dm, color = "RdWhBlu", scale = "row", show_colnames = TRUE,
 \item{option}{see ?viridis}
 
 \item{direction}{see ?viridis}
+
+\item{...}{Passes on arguments to pheatmap or viridis}
 
 \item{data}{A data frame containing values of interest. Genes in rows, samples across columns.}
 }
