@@ -11,7 +11,8 @@ devtools::install_github('zktuong/kelvinny')
 ```R
 library(kelvinny)
 ```
-The package contains a couple of wrapper functions for plotting in R, mostly revolving around the use of ggplot2. I will update the package as i start writing more. use ?functionname to find out more options that each function can take.
+The package contains a couple of wrapper functions for plotting in R, mostly revolving around the use of ggplot2 or pheatmap, viridis etc. I will update the package as i start writing more. use ?functionname to find out more options that each function can take.
+The plotHeat function has a small tutorial on how to generate some basic heatmaps. The other functions are quite specific to what i'm doing.
 
 ### plotHeat
 A shortcut to plotting heatmaps, provided the table you want to plot can be uploaded into R.
@@ -56,7 +57,7 @@ plotHeat(test, annotation_col=annotation_col, annotation_row=annotation_row)
 ```
 ![heatmap](exampleImages/heat4.png)
 ```R
-plotHeat(test, annotation_col=annotation_col, annotation_row=annotation_row, color="viridis")
+plotHeat(test, annotation_col=annotation_col, annotation_row=annotation_row, col="viridis")
 ```
 ![heatmap](exampleImages/heat5.png)
 
