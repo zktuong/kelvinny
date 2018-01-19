@@ -48,7 +48,7 @@ plotHeat <- function(d , color="RdWhBlu", scale="row", show_colnames=TRUE, show_
     col_scale = color
     col_palette <- colorRampPalette(col_scale)(n = n)
   }
-  p <- pheatmap::pheatmap(
+  p <- pheatmap(
     mat               = mat_data,
     color             = col_palette,
     border_color      = NA,
