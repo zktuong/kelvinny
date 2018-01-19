@@ -29,7 +29,6 @@
 #' @import viridis
 #' @export
 plotHeat <- function(dm , color="RdWhBlu", scale="row", show_colnames=TRUE, show_rownames=TRUE, cluster_rows=TRUE, cluster_cols=TRUE, fontsize=9, n=50, option="D", direction=1) {
-  if(dm == null)
   if(class(dm[,1]) != "numeric") {
   rnames <- dm[,1] # assign labels in column 1 to "rnames"
   mat_data <- data.matrix(dm[,2:ncol(m)])    # transform column 2 to last column into a matrix
