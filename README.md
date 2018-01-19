@@ -40,4 +40,20 @@ Overlays what the simple.tSNE plot does in terms of coloring, onto the Monocle p
 ```R
 colorMyTrajectory('Epcam') 
 ```
-![ascendtSNE plot with batch information](exampleImages/colorTrajectory.png)
+![colorTrajectory](exampleImages/colorTrajectory.png)
+
+### plotHeat
+A shortcut to plotting heatmaps, provided the table you want to plot can be uploaded into R.
+```R
+data <- read.delim("table.txt")
+plotHeat(data)
+```
+![heatmap](exampleImages/heat.png)
+```R
+plotHeat(data, col="viridis")
+```
+![heatmap](exampleImages/heat2.png)
+```R
+plotHeat(data, col=c("green","black","red")
+```
+![heatmap](exampleImages/heat3.png)
