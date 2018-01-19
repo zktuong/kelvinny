@@ -25,14 +25,36 @@
 #' #6          5.4         3.9          1.7         0.4  setosa
 #' df <- iris[,c(1:4)]
 #' plotHeat(df)
+#'
+#' # using example from pheatmap
+#' # Create test matrix
+#' test = matrix(rnorm(200), 20, 10)
+#' test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
+#' test[11:20, seq(2, 10, 2)] = test[11:20, seq(2, 10, 2)] + 2
+#' test[15:20, seq(2, 10, 2)] = test[15:20, seq(2, 10, 2)] + 4
+#' colnames(test) = paste("Test", 1:10, sep = "")
+#' rownames(test) = paste("Gene", 1:20, sep = "")
+#' # Generate annotations for rows and columns
+#' annotation_col = data.frame(
+#'   CellType = factor(rep(c("CT1", "CT2"), 5)),
+#'   Time = 1:5
+#' )
+#' rownames(annotation_col) = paste("Test", 1:10, sep = "")
+#'
+#' annotation_row = data.frame(
+#'   GeneClass = factor(rep(c("Path1", "Path2", "Path3"), c(10, 4, 6)))
+#' )
+#' rownames(annotation_row) = paste("Gene", 1:20, sep = "")
+#' #plot!
+#' plotHeat(test, annotation_col=annotation_col, annotation_row=annotation_row)
 #' @import pheatmap
 #' @import RColorBrewer
 #' @import viridis
 #' @export
-plotHeat <- function(d , color="RdWhBlu", scale="row", show_colnames=TRUE, show_rownames=TRUE, cluster_rows=TRUE, cluster_cols=TRUE, fontsize=9, n=50, option="D", direction=1, ...) {
+plotHeat <- function(d , color = "RdWhBlu", scale = "row", n = 50, alpha = 1, begin = 0, end = 1,  option = "D", direction = 1, show_colnames=TRUE, show_rownames=TRUE, cluster_rows=TRUE, cluster_cols=TRUE, fontsize=9, ...) {
   if(class(d[,1]) != "numeric") {
   rnames <- d[,1] # assign labels in column 1 to "rnames"
-  mat_data <- data.matrix(d[,2:ncol(m)])    # transform column 2 to last column into a matrix
+  mat_data <- data.matrix(d[,2:ncol(d)])    # transform column 2 to last column into a matrix
   rownames(mat_data) <- rnames
   } else {
   mat_data <- data.matrix(d)
@@ -42,7 +64,7 @@ plotHeat <- function(d , color="RdWhBlu", scale="row", show_colnames=TRUE, show_
     col_scale = c(brewer.pal(9, "RdBu"))
     col_palette <- colorRampPalette(col_scale)(n = n)
   } else if (color == "viridis") {
-    col_scale = viridis(n, option=option, direction=direction, ...)
+    col_scale = viridis(n, alpha = alpha, begin = begin, end = end, direction = direction, option = option)
     col_palette = col_scale
     } else if (color == color) {
     col_scale = color
