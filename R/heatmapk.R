@@ -11,6 +11,7 @@
 #' @param n see ?viridis
 #' @param option see ?viridis
 #' @param direction see ?viridis
+#' @param ... Passes on arguments to pheatmap or viridis
 #' @return A wrapper for pheatmap.
 #' @examples
 #' data(iris)
@@ -28,20 +29,20 @@
 #' @import RColorBrewer
 #' @import viridis
 #' @export
-plotHeat <- function(dm , color="RdWhBlu", scale="row", show_colnames=TRUE, show_rownames=TRUE, cluster_rows=TRUE, cluster_cols=TRUE, fontsize=9, n=50, option="D", direction=1) {
-  if(class(dm[,1]) != "numeric") {
-  rnames <- dm[,1] # assign labels in column 1 to "rnames"
-  mat_data <- data.matrix(dm[,2:ncol(m)])    # transform column 2 to last column into a matrix
+plotHeat <- function(d , color="RdWhBlu", scale="row", show_colnames=TRUE, show_rownames=TRUE cluster_rows=TRUE, cluster_cols=TRUE, fontsize=9, n=50, option="D", direction=1, ...) {
+  if(class(d[,1]) != "numeric") {
+  rnames <- d[,1] # assign labels in column 1 to "rnames"
+  mat_data <- data.matrix(d[,2:ncol(m)])    # transform column 2 to last column into a matrix
   rownames(mat_data) <- rnames
   } else {
-  mat_data <- data.matrix(dm)
+  mat_data <- data.matrix(d)
   }
 
   if (color == "RdWhBlu") {
     col_scale = c(brewer.pal(9, "RdBu"))
     col_palette <- colorRampPalette(col_scale)(n = n)
   } else if (color == "viridis") {
-    col_scale = viridis(n, option=option, direction=direction)
+    col_scale = viridis(n, option=option, direction=direction, ...)
     col_palette = col_scale
     } else if (color == color) {
     col_scale = color
@@ -58,7 +59,8 @@ plotHeat <- function(dm , color="RdWhBlu", scale="row", show_colnames=TRUE, show
     drop_levels       = TRUE,
     fontsize          = fontsize,
     cluster_rows = cluster_rows,
-    cluster_cols = cluster_cols
+    cluster_cols = cluster_cols,
+    ...
   )
   return(p)
 }
