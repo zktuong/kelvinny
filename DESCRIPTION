@@ -1,0 +1,10 @@
+Package: kelvinny
+Title: Kelvinny does what a Kelvin does
+Version: 1.0
+Authors@R: person("Kelvin", "Tuong", email = "z.tuong@uq.edu.au", role = c("aut", "cre"))
+Description: R plotting Scripts.
+Depends: R (>= 3.3.3)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
