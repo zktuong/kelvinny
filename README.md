@@ -36,6 +36,7 @@ ascendtSNE.info('batch') # only accepts 'batch' or 'cluster' at the moment
 ![ascendtSNE plot with batch information](exampleImages/batch.png)
 
 ### colorMyTrajectory
+Overlays what the simple.tSNE plot does in terms of coloring, onto the Monocle pseudotime trajectory generated with their CellDataSet (called HSMM in the tutorial).
 ```R
 colorMyTrajectory('Epcam') 
 ```
