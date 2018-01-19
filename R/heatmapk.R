@@ -9,9 +9,12 @@
 #' @param cluster_cols see ?pheatmap
 #' @param fontsize see ?pheatmap
 #' @param n see ?viridis
+#' @param alpha see?viridis
+#' @param begin see ?viridis
+#' @param end see ?viridis
 #' @param option see ?viridis
 #' @param direction see ?viridis
-#' @param ... Passes on arguments to pheatmap or viridis
+#' @param ... Passes on arguments to pheatmap
 #' @return A wrapper for pheatmap.
 #' @examples
 #' data(iris)

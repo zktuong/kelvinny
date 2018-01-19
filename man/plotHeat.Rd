@@ -16,6 +16,12 @@ plotHeat(d, color = "RdWhBlu", scale = "row", n = 50, alpha = 1,
 
 \item{n}{see ?viridis}
 
+\item{alpha}{see?viridis}
+
+\item{begin}{see ?viridis}
+
+\item{end}{see ?viridis}
+
 \item{option}{see ?viridis}
 
 \item{direction}{see ?viridis}
@@ -30,7 +36,7 @@ plotHeat(d, color = "RdWhBlu", scale = "row", n = 50, alpha = 1,
 
 \item{fontsize}{see ?pheatmap}
 
-\item{...}{Passes on arguments to pheatmap or viridis}
+\item{...}{Passes on arguments to pheatmap}
 
 \item{data}{A data frame containing values of interest. Genes in rows, samples across columns.}
 }
