@@ -49,3 +49,11 @@ data <- read.delim("table.txt")
 plotHeat(data)
 ```
 ![heatmap](exampleImages/heat.png)
+```R
+plotHeat(data, col="viridis")
+```
+![heatmap](exampleImages/heat2.png)
+```R
+plotHeat(data, col=c("green","black","red")
+```
+![heatmap](exampleImages/heat3.png)
