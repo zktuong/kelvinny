@@ -7,12 +7,13 @@
 plotHeat(d, color = "RdWhBlu", scale = "row", n = 50, alpha = 1,
   begin = 0, end = 1, option = "D", direction = 1,
   show_colnames = TRUE, show_rownames = TRUE, cluster_rows = TRUE,
-  cluster_cols = TRUE, fontsize = 9, ...)
+  cluster_cols = TRUE, drop_levels = TRUE, fontsize = 9, legend = TRUE,
+  border_color = NA, ...)
 }
 \arguments{
-\item{color}{A string for what colours you want. e.g. c("blue","white,"red")}
+\item{color}{Default has "BluWhRd", "RdWhBlu", "viridis" or a string of the colours you want. e.g. c("blue","yellow","orange").}
 
-\item{scale}{see ?pheatmap}
+\item{scale}{Default is "row". Other options include "column" or "none". see ?pheatmap.}
 
 \item{n}{see ?viridis}
 
@@ -26,19 +27,25 @@ plotHeat(d, color = "RdWhBlu", scale = "row", n = 50, alpha = 1,
 
 \item{direction}{see ?viridis}
 
-\item{show_colnames}{see ?pheatmap}
+\item{show_colnames}{TRUE/FALSE. see ?pheatmap.}
 
-\item{show_rownames}{see ?pheatmap}
+\item{show_rownames}{TRUE/FALSE. see ?pheatmap.}
 
-\item{cluster_rows}{see ?pheatmap}
+\item{cluster_rows}{TRUE/FALSE. see ?pheatmap.}
 
-\item{cluster_cols}{see ?pheatmap}
+\item{cluster_cols}{TRUE/FALSE. see ?pheatmap.}
 
-\item{fontsize}{see ?pheatmap}
+\item{drop_levels}{TRUE/FALSE. see ?pheatmap.}
 
-\item{...}{Passes on arguments to pheatmap}
+\item{fontsize}{Default is 9. see ?pheatmap.}
 
-\item{data}{A data frame containing values of interest. Genes in rows, samples across columns.}
+\item{legend}{TRUE/FALSE. see ?pheatmap.}
+
+\item{border_color}{see ?pheatmap.}
+
+\item{...}{Passes on arguments to pheatmap.}
+
+\item{data}{A data frame containing values of interest. Genes in rows, samples across columns. if supplied as a matrix with rownames as genes and the 1st column is exprs values, it will still go through.}
 }
 \value{
 A wrapper for pheatmap.
