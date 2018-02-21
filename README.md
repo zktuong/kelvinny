@@ -1,6 +1,5 @@
 # kelvinny
-Kelvin's wrapper scripts for R ggplot2 plotting functions
-Currently works for R 3.4.1
+Kelvin's wrapper scripts for R ggplot2 plotting functions. Currently works for R 3.4.1
 
 ## Installation instructions
 You can install the package via ```devtools::install_github()``` function in R
