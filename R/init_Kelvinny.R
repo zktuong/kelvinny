@@ -4,11 +4,10 @@
 #' @examples
 #' init_Kelvinny() # leaves folder, install, and change back to folder
 #' @import devtools
-#' @import roxygen2
 #' @export
 init_Kelvinny <- function() {
-roxygen2::document()
+devtools::document()
 setwd('..')
-roxygen2::install('kelvinny')
+devtools::install('kelvinny')
 setwd('kelvinny')
 }

@@ -1,7 +1,7 @@
 Package: kelvinny
 Title: Kelvinny does what a Kelvin does
 Version: 1.2
-Authors@R: person("Kelvin", "Tuong", email = "zewen.tuong@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Kelvin", "Tuong", email = "z.tuong@uq.edu.au", role = c("aut", "cre"))
 Description: Kelvin's wrapper functions for R plotting.
 Depends: R (>= 3.5.0)
 License: GPL-3
