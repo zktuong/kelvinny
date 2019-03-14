@@ -74,7 +74,7 @@ pbcopy lets you copy any object from R to paste outside as a dataframe/vector as
 ```R
 pbcopy(data)
 ```
-pbpaste does the reverse: converts what you copy outside and paste as dataframe in R as and object.
+pbpaste does the reverse: converts what you copy outside and paste as a vector in R.
 ```R
 pasted_data <- pbpaste()
 ```
