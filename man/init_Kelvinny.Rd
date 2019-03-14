@@ -12,3 +12,6 @@ quickly redocumenting kelvinny
 \description{
 documenting kelvinny shortcut
 }
+\examples{
+init_Kelvinny() # leaves folder, install, and change back to folder
+}

@@ -1,18 +1,18 @@
 # kelvinny
-Kelvin's wrapper scripts for R ggplot2 plotting functions. R 3.3.1
+Kelvin's wrapper scripts for R plotting functions and other stuff.
 
 ## Installation instructions
 You can install the package via ```devtools::install_github()``` function in R
 ```R
 library(devtools)
-devtools::install_github('zktuong/kelvinny')
+devtools::install_github('zktuong/kelvinny', dependencies = TRUE)
 ```
 ## Usage instructions
 ```R
 library(kelvinny)
 ```
 The package contains a couple of wrapper functions for plotting in R, mostly revolving around the use of ggplot2, pheatmap and viridis etc. I will update the package as i start writing more. use ?functionname to find out more options that each function can take.
-The plotHeat function has a small tutorial on how to generate some basic heatmaps. The other functions are quite specific to what i'm doing.
+The plotHeat function has a small tutorial on how to generate some basic heatmaps. 
 
 ### plotHeat
 A shortcut to plotting heatmaps, provided the table you want to plot can be uploaded into R.
@@ -60,4 +60,36 @@ plotHeat(test, annotation_col=annotation_col, annotation_row=annotation_row)
 plotHeat(test, annotation_col=annotation_col, annotation_row=annotation_row, col="viridis")
 ```
 ![heatmap](exampleImages/heat5.png)
+
+### gg_color_hue
+Generates the standard colors used by ggplot.
+```R
+gg_color_hue(20)
+#  [1] "#F8766D" "#EA8331" "#D89000" "#C09B00" "#A3A500" "#7CAE00" "#39B600" "#00BB4E" "#00BF7D" "#00C1A3" "#00BFC4" "#00BAE0" "#00B0F6"
+# [14] "#35A2FF" "#9590FF" "#C77CFF" "#E76BF3" "#FA62DB" "#FF62BC" "#FF6A98"
+```
+
+### pbcopy/pbpaste
+pbcopy lets you copy any object from R to paste outside as a dataframe/vector as you wish.
+```R
+pbcopy(data)
+```
+pbpaste does the reverse: converts what you copy outside and paste as dataframe in R as and object.
+```R
+pasted_data <- pbpaste()
+```
+
+### RFclassifier/RFpredictor
+Uses RandomForest algorithm to classify data, for example seurat single-cell data
+```R
+classifier <- RFclassifier(seurat, training.classes = seurat@ident, importance = "impurity")
+prediction <- RFpredictor(classifier, test@data)
+```
+
+### train_model_glment/test_model_glmnet
+Uses glmnet algorithm to predict data.
+```R
+model <- train_model_glmnet(data, variable_colname = "disease", alpha = 0.5, cutOff = 0.5, nfolds = ncol(data)) # LOOCV Elastic net regularization
+pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
+```
 

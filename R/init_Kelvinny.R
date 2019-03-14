@@ -1,12 +1,14 @@
 #' documenting kelvinny shortcut
 #'
 #' @return quickly redocumenting kelvinny
+#' @examples
+#' init_Kelvinny() # leaves folder, install, and change back to folder
 #' @import devtools
 #' @import roxygen2
 #' @export
 init_Kelvinny <- function() {
-document()
+roxygen2::document()
 setwd('..')
-install('kelvinny')
+roxygen2::install('kelvinny')
 setwd('kelvinny')
 }
