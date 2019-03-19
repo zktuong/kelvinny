@@ -5,7 +5,7 @@
 #' @export
 pbcopy <- function(object){
 clip <- pipe("pbcopy", "w")
-write.table(object, file=clip, col.names = FALSE, row.names=FALSE, quote=FALSE)
+write.table(object, file = clip, col.names = FALSE, row.names = FALSE, quote = FALSE, sep = "\t")
 close(clip)
 }
 
