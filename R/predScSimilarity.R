@@ -35,7 +35,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, ...) {
     message(sprintf("Predicting probabilities for %s", class))
     model.genes <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
 
-    preds[[class]] = predict(model[[class]], newx = newx[,model.genes], s = model[[class]]$lambda.1se, ...)
+    preds[[class]] = predict(model[[class]], newx = newx[,model.genes], s = model[[class]]$lambda.1se, newoffset = rep(0, nrow(newx)), ...)
     colnames(preds[[class]]) <- class
     }
     return(preds)

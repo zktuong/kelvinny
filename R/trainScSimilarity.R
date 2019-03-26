@@ -49,11 +49,20 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         for(label in labels){
             message(sprintf("Training model for %s", label))
             celltype = factor(train_cell_type == label)
+            getPopulationOffset = function(y) {
+                if(!is.factor(y))
+                    y = factor(y)
+                if(length(levels(y)) != 2)
+                    stop("y must be a two-level factor")
+                    off = sum(y == levels(y)[2])/length(y)
+                    off = log(off/(1-off))
+            return(rep(off,length(y)))
+        }
             fit[[label]] = tryCatch(
-                glmnet::cv.glmnet(train_dat, celltype, family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
+                glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
                 error = function(e) {
                     tryCatch(
-                        glmnet::cv.glmnet(train_dat, celltype,family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
+                        glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
                         error = function(e) {
                             warning(sprintf("Could not train model for variable %s", label))
                             return(NULL)
