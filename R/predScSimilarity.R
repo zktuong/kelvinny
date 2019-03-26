@@ -8,7 +8,7 @@
 #' @examples
 #' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
-#' @import dplyr
+#' @import SummarizedExperiment
 #' @export
 #'      
             
@@ -24,7 +24,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, ...) {
         return(X)
     }
 
-    newx <- as.matrix(t(assay(nathan.sce)))
+    newx <- as.matrix(t(SummarizedExperiment::assay(test)))
 
     if (standardize == TRUE) {
         print("standardizing test data")
