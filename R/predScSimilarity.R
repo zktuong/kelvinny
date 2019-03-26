@@ -24,7 +24,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, ...) {
         return(X)
     }
 
-    newx <- as.matrix(t(SummarizedExperiment::assay(test)))
+    newx <- t(as.matrix(SummarizedExperiment::assay(test)))
 
     if (standardize == TRUE) {
         print("standardizing test data")
