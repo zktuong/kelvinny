@@ -8,6 +8,7 @@
 #' @param type term for internal prediction type. 
 #' @param cutOff value for internal prediction.
 #' @param nfolds number of folds for cross validation. use ncol(data) for LOOCV.
+#' @param ... pass to glmnet
 #' @return Generates a glmnet model.
 #' @examples
 #' model <- train_model_glmnet(data, variable_colname = "disease", alpha = 0.5, cutOff = 0.5, nfolds = ncol(data)) # LOOCV Elastic net regularization

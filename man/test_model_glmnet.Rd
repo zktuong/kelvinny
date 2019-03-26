@@ -12,6 +12,8 @@ test_model_glmnet(model, new_data, type = "response", ...)
 \item{new_data}{new expression data.}
 
 \item{type}{Type of prediction needed. see ?predict.glmnet}
+
+\item{...}{pass to predict. see ?predict.glmnet}
 }
 \value{
 Generates prediction.

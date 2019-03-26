@@ -3,6 +3,7 @@
 #' @param model trained model.
 #' @param new_data new expression data.
 #' @param type Type of prediction needed. see ?predict.glmnet
+#' @param ... pass to predict. see ?predict.glmnet
 #' @return Generates prediction.
 #' @examples
 #' pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")

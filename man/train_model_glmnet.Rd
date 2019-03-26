@@ -24,6 +24,8 @@ train_model_glmnet(data, variable_colname, alpha = 1,
 \item{cutOff}{value for internal prediction.}
 
 \item{nfolds}{number of folds for cross validation. use ncol(data) for LOOCV.}
+
+\item{...}{pass to glmnet}
 }
 \value{
 Generates a glmnet model.

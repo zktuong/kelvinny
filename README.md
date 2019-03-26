@@ -93,3 +93,11 @@ model <- train_model_glmnet(data, variable_colname = "disease", alpha = 0.5, cut
 pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
 ```
 
+### trainScSimilarity/predScSimilarity
+Similar to above. Uses glmnet algorithm to predict similarity of cells to reference/training data.
+Requires objects provided as SingleCellExperiment/SummarizedExperiment objects.
+```R
+model <- trainScSimilarity(train.sce, colData(train.sce)$CellType, nfolds = dim(train.sce)[2])
+pred <- predScSimilarity(model, test.sce)
+```
+
