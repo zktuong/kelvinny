@@ -5,7 +5,7 @@
 \title{Trains scRNA-seq data to be used as multinomial glmnet::cv.glmnet model}
 \usage{
 trainScSimilarity(train_data, train_cell_type, train_genes = NULL,
-  standardize = TRUE, nfolds = 10,
+  standardize = TRUE, nfolds = 10, alpha = 0.99,
   nParallel = parallel::detectCores(), ...)
 }
 \arguments{
@@ -18,6 +18,8 @@ trainScSimilarity(train_data, train_cell_type, train_genes = NULL,
 \item{standardize}{a logical value specifying whether or not to standardize the train matrix}
 
 \item{nfolds}{integer specifying bin for cross validation. Use all samples if doing LOOCV.}
+
+\item{alpha}{regularization parameter}
 
 \item{nParallel}{integer specifying number of cores for parallelization.}
 

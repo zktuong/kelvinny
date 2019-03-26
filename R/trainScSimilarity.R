@@ -5,6 +5,7 @@
 #' @param train_genes Genes to use for training. If not provided, it will try to pick from all genes in the training dataset as per default glmnet.
 #' @param standardize a logical value specifying whether or not to standardize the train matrix
 #' @param nfolds integer specifying bin for cross validation. Use all samples if doing LOOCV.
+#' @param alpha regularization parameter
 #' @param nParallel integer specifying number of cores for parallelization.
 #' @param ... pass to glmnet
 #' @return Generates a trained model for predicting cell types for scRNAseq data
@@ -16,7 +17,7 @@
 #' @export
 #'      
             
-trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, standardize = TRUE, nfolds = 10, nParallel = parallel::detectCores(), ...) 
+trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, standardize = TRUE, nfolds = 10, alpha = 0.99, nParallel = parallel::detectCores(),  ...) 
 {
     set.seed(42)
     fit <-  list()
@@ -49,10 +50,10 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             message(sprintf("Training model for %s", label))
             celltype = factor(train_cell_type == label)
             fit[[label]] = tryCatch(
-                glmnet::cv.glmnet(train_dat, celltype, family = 'binomial', alpha = 0.99, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
+                glmnet::cv.glmnet(train_dat, celltype, family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
                 error = function(e) {
                     tryCatch(
-                        glmnet::cv.glmnet(train_dat, celltype,family = 'binomial', alpha = 0.99, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
+                        glmnet::cv.glmnet(train_dat, celltype,family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
                         error = function(e) {
                             warning(sprintf("Could not train model for variable %s", label))
                             return(NULL)
