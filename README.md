@@ -82,9 +82,35 @@ pasted_data <- pbpaste()
 ### RFclassifier/RFpredictor
 Uses RandomForest algorithm to classify data, for example seurat single-cell data
 ```R
-classifier <- RFclassifier(seurat, training.classes = seurat@ident, importance = "impurity")
-prediction <- RFpredictor(classifier, test@data)
+# library(kelvinny)
+
+classifier <- RFclassifier(train.seurat, training.classes = train.seurat@ident, importance = "impurity", probability = TRUE)
+prediction <- RFpredictor(classifier, as.matrix(test.seurat@data))
+
+## plot this as a heatmap:
+prediction_mat <- prediction$predictions
+test.seurat.metadata <- cbind(test.seurat@meta.data, prediction$predictions)
+test.seurat.metadata <- test.seurat.metadata[order(test.seurat.metadata$combined.clusters), ]
+
+library(viridis)
+plotmat <- t(test.seurat.metadata[,9:ncol(test.seurat.metadata)])
+colAnno <- test.seurat.metadata[,c(5,7,8)]
+
+library(paletteer)
+palette <- paletteer_d(package = 'rcartocolor', palette = 'Vivid', 12)
+
+RF_class <- gg_color_hue(15)
+names(RF_class) <- levels(test.seurat.metadata$RF_class)[-4]
+combined.clusters <- palette
+names(combined.clusters) <- levels(test.seurat.metadata$combined.clusters)
+protocol <- viridis::viridis(2)
+names(protocol) <- unique(test.seurat.metadata$protocol)
+
+anno_color <- list(RF_class = RF_class, combined.clusters = combined.clusters, protocol = protocol)
+
+plotHeat(plotmat, color = inferno(50), scale = "none", annotation_col = colAnno, annotation_colors = anno_color, cluster_rows = TRUE, cluster_cols = FALSE, show_colnames = FALSE)
 ```
+![heatmap](exampleImages/RFheat.png)
 
 ### train_model_glment/test_model_glmnet
 Uses glmnet algorithm to predict data.
