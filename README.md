@@ -112,7 +112,7 @@ plotHeat(plotmat, color = inferno(50), scale = "none", annotation_col = colAnno,
 ```
 ![heatmap](exampleImages/RFheat.png)
 
-### train_model_glment/test_model_glmnet
+### train_model_glmnet/test_model_glmnet
 Uses glmnet algorithm to predict data.
 ```R
 model <- train_model_glmnet(data, variable_colname = "disease", alpha = 0.5, cutOff = 0.5, nfolds = ncol(data)) # LOOCV Elastic net regularization
