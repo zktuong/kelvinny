@@ -3,23 +3,13 @@ sudo: required
 cache: packages
 
 before_install:
-- chmod +x travis_setup.sh
-- "./travis_setup.sh"
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - chmod +x travis_setup.sh
+  - "./travis_setup.sh"
 r:
-- devtools
-- bioc-devel
-- bioc-release
-- RColorBrewer
-- doMC
-- glmnet
-- pheatmap
-- ranger
-- viridislite
-- ggplot2
-- covr
-
-bioc:
-- SummarizedExperiment
+  - bioc-devel
+  - bioc-release
 
 script: ./travis-tool.sh run_tests
 
