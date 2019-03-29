@@ -34,6 +34,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
     if(is.null(train_genes)) {
         train_dat <- SummarizedExperiment::assay(train_data)
         print(paste0("No pre-defined genes provided. Submitting ", dim(train_dat)[1], " genes to glmnet for selecting predictors"))
+        train_dat <- as.matrix(train_dat)
         train_dat <- t(train_dat)
         Zero_col <- which(colSums(train_dat) == 0)
         duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
