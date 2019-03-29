@@ -1,3 +1,7 @@
 language: R
-rvm:
- - 3.5
+
+r_packages:
+  - covr
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
