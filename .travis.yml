@@ -1,4 +1,6 @@
 language: R
+sudo: required
+cache: packages
 
 before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
@@ -7,7 +9,6 @@ before_install:
 install:
   - ./travis-tool.sh install_github hadley/devtools
   - ./travis-tool.sh install_bioc SummarizedExperiment
-  - ./travis-tool.sh install_deps
   - ./travis-tool.sh install_r covr
 
 script: ./travis-tool.sh run_tests
@@ -17,7 +18,13 @@ after_failure:
 
 env:
   global:
-    - BIOC_USE_DEVEL="FALSE"
+  - BIOC_USE_DEVEL="FALSE"
+  - HDF5_RELEASE_URL="https://support.hdfgroup.org/ftp/HDF5/releases"
+  - HDF5_VERSION=1.8.13
+  - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
+notifications:
+  slack: kelvinucam:typ0E36xGGP4DSkBOJEUnnv5
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
