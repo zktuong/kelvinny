@@ -9,8 +9,6 @@ r:
   - bioc-devel
   - bioc-release
 
-script: ./travis-tool.sh run_tests
-
 after_failure:
   - ./travis-tool.sh dump_logs
 
