@@ -6,7 +6,7 @@
 #' @param ... pass to predict. see ?predict.glmnet
 #' @return Generates prediction.
 #' @examples
-#' pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
+#' # pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
 #' @import glmnet
 #' @export
 test_model_glmnet <- function(model, new_data, type = "response", ...) {

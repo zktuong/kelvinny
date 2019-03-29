@@ -8,8 +8,8 @@
 #' @param ... pass to ranger::ranger.
 #' @return Training random forest classification model.
 #' @examples
-#' classifier <- RFclassifier(train.seurat, training.classes = train.seurat@ident, importance = "impurity")
-#' prediction <- RFpredictor(classifier, test@data)
+#' # classifier <- RFclassifier(train.seurat, training.classes = train.seurat@ident, importance = "impurity")
+#' # prediction <- RFpredictor(classifier, test@data)
 #' @import ranger
 #' @export
 RFclassifier <- function(training, training.genes = NULL, training.classes = NULL, verbose = TRUE, probability = FALSE, ...) {

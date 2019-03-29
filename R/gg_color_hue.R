@@ -5,7 +5,7 @@
 #' @examples
 #' col <- gg_color_hue(5)
 #' col
-#' [1] "#F8766D" "#A3A500" "#00BF7D" "#00B0F6" "#E76BF3"
+#' # [1] "#F8766D" "#A3A500" "#00BF7D" "#00B0F6" "#E76BF3"
 #' @export
 gg_color_hue <- function(n) {
     hues = seq(15, 375, length = n + 1)
