@@ -3,5 +3,14 @@ use_bioc: true
 r_packages:
   - covr
 
+install:
+  - ./travis-tool.sh install_github hadley/devtools
+  - ./travis-tool.sh install_deps
+  - ./travis-tool.sh install_bioc SummarizedExperiment
+
+env:
+  global:
+    - BIOC_USE_DEVEL="FALSE"
+
 after_success:
   - Rscript -e 'library(covr); codecov()'
