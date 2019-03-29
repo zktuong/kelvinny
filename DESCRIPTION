@@ -7,8 +7,7 @@ Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
 Imports:
-	RColorBrewer,
-	Seurat,
+	RColorBrewer,	
 	devtools,
 	doMC,
 	glmnet,
@@ -17,6 +16,7 @@ Imports:
 	ranger,
 	viridis
 Suggests:
+	Seurat,
 	dplyr,
 	ggplot2,
 	gridExtra	

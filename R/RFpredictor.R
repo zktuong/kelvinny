@@ -7,7 +7,6 @@
 #' @examples
 #' classifier <- RFclassifier(seurat, training.classes = seurat@ident, importance = "impurity")
 #' prediction <- RFpredictor(classifier, test@data)
-#' @import Seurat
 #' @import ranger
 #' @export
 RFpredictor <- function(classifier, test, ...) {

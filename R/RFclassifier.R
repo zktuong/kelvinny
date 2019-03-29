@@ -10,7 +10,6 @@
 #' @examples
 #' classifier <- RFclassifier(train.seurat, training.classes = train.seurat@ident, importance = "impurity")
 #' prediction <- RFpredictor(classifier, test@data)
-#' @import Seurat
 #' @import ranger
 #' @export
 RFclassifier <- function(training, training.genes = NULL, training.classes = NULL, verbose = TRUE, probability = FALSE, ...) {
