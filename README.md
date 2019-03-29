@@ -1,3 +1,6 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![codecov](https://codecov.io/gh/zktuong/kelvinny/branch/master/graph/badge.svg)](https://codecov.io/gh/zktuong/kelvinny)
+[![Build Status](https://travis-ci.com/zktuong/kelvinny.svg?branch=master)](https://travis-ci.com/zktuong/kelvinny)
 # kelvinny
 Kelvin's wrapper scripts for R plotting functions and other stuff.
 
