@@ -9,7 +9,16 @@ before_install:
 install:
   - ./travis-tool.sh install_github hadley/devtools
   - ./travis-tool.sh install_bioc SummarizedExperiment
-  - ./travis-tool.sh install_r covr
+
+r:
+  - RColorBrewer
+  - doMC
+  - glmnet
+  - pheatmap
+  - ranger
+  - viridislite
+  - ggplot2
+  - covr
 
 script: ./travis-tool.sh run_tests
 
