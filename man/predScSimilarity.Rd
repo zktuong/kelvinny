@@ -4,7 +4,8 @@
 \alias{predScSimilarity}
 \title{Predicts scRNA-seq data from trained multinomial cv.glmnet model}
 \usage{
-predScSimilarity(model, test, standardize = TRUE, ...)
+predScSimilarity(model, test, standardize = TRUE, lambda.1se = TRUE,
+  ...)
 }
 \arguments{
 \item{model}{trained model.}
@@ -12,6 +13,8 @@ predScSimilarity(model, test, standardize = TRUE, ...)
 \item{test}{SingleCellExperiment object for prediction}
 
 \item{standardize}{a logical value specifying whether or not to standardize the test matrix}
+
+\item{lambda.1se}{logical value. FALSE will use lambda.min for prediction}
 
 \item{...}{pass to predict. see ?predict.glmnet}
 }

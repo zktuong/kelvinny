@@ -22,7 +22,7 @@ data <- read.delim("table.txt") # a typical way to load a tab-delimited text fil
 data(iris)
 head(iris)
 data <- iris[,1:4] # i'm removing the last column because it's not numeric
-plotHeat(data)
+plotHeat(data, col = "RdWhBlu")
 ```
 ![heatmap](exampleImages/heat.png)
 ```R

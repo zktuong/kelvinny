@@ -28,9 +28,10 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         return(X)
     }
 
-    if(nParallel > 1)
+    if(nParallel > 1) {
     doMC::registerDoMC(cores = nParallel)
-
+    }
+    
     if(is.null(train_genes)) {
         train_dat <- SummarizedExperiment::assay(train_data)
         print(paste0("No pre-defined genes provided. Submitting ", dim(train_dat)[1], " genes to glmnet for selecting predictors"))
