@@ -4,13 +4,11 @@
 \alias{RFclassifier}
 \title{Random Forest Classifcation for single-cell expression data or just general matrix}
 \usage{
-RFclassifier(training, test, training.genes = NULL,
-  training.classes = NULL, verbose = TRUE, probability = FALSE, ...)
+RFclassifier(training, training.genes = NULL, training.classes = NULL,
+  verbose = TRUE, probability = FALSE, ...)
 }
 \arguments{
 \item{training}{training expression matrix.}
-
-\item{test}{test expression matrix.}
 
 \item{training.genes}{training genes to build classifier.}
 
@@ -29,6 +27,6 @@ Training random forest classification model.
 Random Forest Classifcation for single-cell expression data or just general matrix
 }
 \examples{
-classifier <- RFclassifier(park.seurat, training.classes = park.seurat@ident, importance = "impurity")
+classifier <- RFclassifier(train.seurat, training.classes = train.seurat@ident, importance = "impurity")
 prediction <- RFpredictor(classifier, test@data)
 }

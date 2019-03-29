@@ -1,7 +1,6 @@
 #' Random Forest Classifcation for single-cell expression data or just general matrix
 #' 
 #' @param training training expression matrix.
-#' @param test test expression matrix.
 #' @param training.genes training genes to build classifier.
 #' @param training.classes training classes to build classifier.
 #' @param verbose verbosity.
@@ -9,12 +8,12 @@
 #' @param ... pass to ranger::ranger.
 #' @return Training random forest classification model.
 #' @examples
-#' classifier <- RFclassifier(park.seurat, training.classes = park.seurat@ident, importance = "impurity")
+#' classifier <- RFclassifier(train.seurat, training.classes = train.seurat@ident, importance = "impurity")
 #' prediction <- RFpredictor(classifier, test@data)
 #' @import Seurat
 #' @import ranger
 #' @export
-RFclassifier <- function(training, test, training.genes = NULL, training.classes = NULL, verbose = TRUE, probability = FALSE, ...) {
+RFclassifier <- function(training, training.genes = NULL, training.classes = NULL, verbose = TRUE, probability = FALSE, ...) {
     SetIfNull <- function(x, default) {
   if(is.null(x = x)){
     return(default)
@@ -25,7 +24,7 @@ RFclassifier <- function(training, test, training.genes = NULL, training.classes
 if(class(training) == "seurat"){
     training.classes <- as.vector(x = training.classes)
     training.genes <- SetIfNull(x = training.genes, default = rownames(x = training@data))
-    training.data <- as.data.frame(x = as.matrix(x = t(x = training@data[training.genes, ])))
+    training.data <- as.data.frame(t(x = as.matrix(x = training@data[training.genes, ])))
     training.data$class <- factor(x = training.classes)
     if (verbose) {
         message("Training Classifier ...")
