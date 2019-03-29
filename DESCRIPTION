@@ -15,7 +15,6 @@ Imports:
 	ranger,
 	viridis
 Suggests:
-	Seurat,
 	dplyr,
 	ggplot2,
 	gridExtra	
