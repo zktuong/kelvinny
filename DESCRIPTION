@@ -14,8 +14,8 @@ Imports:
 	pheatmap,
 	ranger,
 	viridisLite,
-	SummarizedExperiment,
 	devtools
+Remote: SummarizedExperiment
 Suggests:
 	ggplot2
 LazyData: true

@@ -18,5 +18,5 @@ Generate default ggplot colour palette depending on the number of colours requir
 \examples{
 col <- gg_color_hue(5)
 col
-[1] "#F8766D" "#A3A500" "#00BF7D" "#00B0F6" "#E76BF3"
+# [1] "#F8766D" "#A3A500" "#00BF7D" "#00B0F6" "#E76BF3"
 }

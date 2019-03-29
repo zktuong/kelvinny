@@ -5,8 +5,8 @@
 #' @param ... pass to predict.ranger.
 #' @return Predicting using random forest classification.
 #' @examples
-#' # classifier <- RFclassifier(seurat, training.classes = seurat@ident, importance = "impurity")
-#' # prediction <- RFpredictor(classifier, test@data)
+#' classifier <- RFclassifier(seurat, training.classes = seurat@ident, importance = "impurity")
+#' prediction <- RFpredictor(classifier, test@data)
 #' @import ranger
 #' @export
 RFpredictor <- function(classifier, test, ...) {

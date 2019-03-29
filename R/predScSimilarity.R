@@ -7,7 +7,7 @@
 #' @param ... pass to predict. see ?predict.glmnet
 #' @return Generates prediction.
 #' @examples
-#' # pred <- predScSimilarity(model, test.sce)
+#' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
 #' @import SummarizedExperiment
 #' @export

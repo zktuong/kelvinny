@@ -11,7 +11,7 @@
 #' @param ... pass to glmnet
 #' @return Generates a glmnet model.
 #' @examples
-#' # model <- train_model_glmnet(data, variable_colname = "disease", alpha = 0.5, cutOff = 0.5, nfolds = ncol(data)) # LOOCV Elastic net regularization
+#' model <- train_model_glmnet(data, variable_colname = "disease", alpha = 0.5, cutOff = 0.5, nfolds = ncol(data)) # LOOCV Elastic net regularization
 #' @import glmnet
 #' @import doMC
 #' @import parallel

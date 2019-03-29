@@ -9,6 +9,8 @@ r:
   - bioc-devel
   - bioc-release
 
+r_build_args: '--no-build-vignettes'
+
 after_failure:
   - ./travis-tool.sh dump_logs
 
