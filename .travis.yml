@@ -1,5 +1,5 @@
 language: R
-
+use_bioc: true
 r_packages:
   - covr
 
