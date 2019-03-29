@@ -13,9 +13,10 @@ Imports:
 	parallel,
 	pheatmap,
 	ranger,
-	viridisLite,
-	SummarizedExperiment,
-	devtools
+	viridisLite	
+Remote: 
+	hadley/devtools,
+	bioc::SummarizedExperiment
 Suggests:
 	ggplot2
 LazyData: true
