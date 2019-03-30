@@ -14,9 +14,10 @@ Imports:
 	pheatmap,
 	ranger,
 	viridisLite,
-	SummarizedExperiment
 Suggests:
-	ggplot2
+	ggplot2,
+	SummarizedExperiment,
+	devtools
 LazyData: true
 RoxygenNote: 6.1.1
 
