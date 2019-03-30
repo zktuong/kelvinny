@@ -14,7 +14,7 @@ env:
   - HDF5_RELEASE_URL="https://support.hdfgroup.org/ftp/HDF5/releases"
   - HDF5_VERSION=1.8.13
   - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-r_check_args: '--no-examples --no-tests --no-vignettes'
+r_check_args: '--no-examples'
 notifications:
   slack: kelvinucam:typ0E36xGGP4DSkBOJEUnnv5
     webhooks:
