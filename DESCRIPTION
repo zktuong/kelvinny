@@ -13,11 +13,10 @@ Imports:
 	parallel,
 	pheatmap,
 	ranger,
-	viridisLite	
+	viridisLite,
+	SummarizedExperiment
 Suggests:
 	ggplot2
-	hadley/devtools,
-	bioc::SummarizedExperiment
 LazyData: true
 RoxygenNote: 6.1.1
 
