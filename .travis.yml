@@ -22,6 +22,11 @@ r_check_args: '--no-examples --no-tests --no-vignettes'
 
 notifications:
   slack: kelvinucam:typ0E36xGGP4DSkBOJEUnnv5
-
+    webhooks:
+        urls:
+            - "https://scalar.vector.im/api/neb/services/hooks/dHJhdmlzLWNpLyU0MHprdHVvbmclM0FtYXRyaXgub3JnLyUyMXN0cVdkZFV2SUFwcGJhVk9NcCUzQW1hdHJpeC5vcmc"
+        on_success: change  # always|never|change
+        on_failure: always
+        on_start: never
 after_success:
   - Rscript -e 'library(covr); codecov()'

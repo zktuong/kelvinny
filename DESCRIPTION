@@ -14,11 +14,10 @@ Imports:
 	pheatmap,
 	ranger,
 	viridisLite	
-Remote: 
-	hadley/devtools,
-	bioc::SummarizedExperiment
 Suggests:
 	ggplot2
+	hadley/devtools,
+	bioc::SummarizedExperiment
 LazyData: true
 RoxygenNote: 6.1.1
 
