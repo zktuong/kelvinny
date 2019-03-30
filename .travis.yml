@@ -9,8 +9,6 @@ r:
   - bioc-devel
   - bioc-release
 
-r_build_args: '--no-build-vignettes'
-
 after_failure:
   - ./travis-tool.sh dump_logs
 
@@ -19,7 +17,9 @@ env:
   - HDF5_RELEASE_URL="https://support.hdfgroup.org/ftp/HDF5/releases"
   - HDF5_VERSION=1.8.13
   - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-  - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
+
+r_check_args: '--no-examples --no-tests --no-vignettes'
+
 notifications:
   slack: kelvinucam:typ0E36xGGP4DSkBOJEUnnv5
 
