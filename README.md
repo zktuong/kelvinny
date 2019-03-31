@@ -9,6 +9,11 @@ You can install the package via ```devtools::install_github()``` function in R
 ```R
 library(devtools)
 devtools::install_github('zktuong/kelvinny', dependencies = TRUE)
+
+# one function requires SummarizedExperiment from bioconductor
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("SummarizedExperiment", version = "3.8")
 ```
 ## Usage instructions
 ```R
