@@ -17,7 +17,9 @@ Imports:
 	SummarizedExperiment,
 	devtools
 Suggests:
-	ggplot2
+	ggplot2,
+	covr,
+	dplyr
 LazyData: true
 RoxygenNote: 6.1.1
 
