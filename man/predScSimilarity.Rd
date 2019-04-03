@@ -10,7 +10,7 @@ predScSimilarity(model, test, standardize = TRUE, lambda.1se = TRUE,
 \arguments{
 \item{model}{trained model.}
 
-\item{test}{SingleCellExperiment object for prediction}
+\item{test}{seurat object, SummarizedExperiment object or expression matrix for prediction}
 
 \item{standardize}{a logical value specifying whether or not to standardize the test matrix}
 

@@ -129,9 +129,14 @@ pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
 
 ### trainScSimilarity/predScSimilarity
 Similar to above. Uses glmnet algorithm to predict similarity of cells to reference/training data.
-Requires objects provided as SingleCellExperiment/SummarizedExperiment objects.
+Can take expression matrix as well as Seurat or SummarizedExperiment objects.
 ```R
+### SummarizedExperiment object
 model <- trainScSimilarity(train.sce, colData(train.sce)$CellType, nfolds = dim(train.sce)[2])
 pred <- predScSimilarity(model, test.sce)
+### Seurat object
+model <- trainScSimilarity(train.seurat, seurat@ident, nfolds = dim(train.seurat@data)[2])
+pred <- predScSimilarity(model, test.seurat)
+
 ```
 

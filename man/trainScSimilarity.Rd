@@ -9,7 +9,7 @@ trainScSimilarity(train_data, train_cell_type, train_genes = NULL,
   nParallel = parallel::detectCores(), ...)
 }
 \arguments{
-\item{train_data}{SingleCellExperiment object for training}
+\item{train_data}{seurat object, SummarizedExperiment object or expression matrix for training}
 
 \item{train_cell_type}{The cell types/clusters in the training data set}
 

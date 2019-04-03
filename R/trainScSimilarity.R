@@ -1,6 +1,6 @@
 #' Trains scRNA-seq data to be used as multinomial glmnet::cv.glmnet model
 #' 
-#' @param train_data SingleCellExperiment object for training
+#' @param train_data seurat object, SummarizedExperiment object or expression matrix for training
 #' @param train_cell_type The cell types/clusters in the training data set
 #' @param train_genes Genes to use for training. If not provided, it will try to pick from all genes in the training dataset as per default glmnet.
 #' @param standardize a logical value specifying whether or not to standardize the train matrix
@@ -32,7 +32,13 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
     }
     
     if(is.null(train_genes)) {
-        train_dat <- SummarizedExperiment::assay(train_data)
+        if(class(train_data) == "SummarizedExperiment"){
+            train_dat <- SummarizedExperiment::assay(train_data)    
+        } else if (class(train_data) == "seurat"){
+            train_dat <- train_data@data
+        } else {
+            train_dat <- train_data
+        }
         print(paste0("No pre-defined genes provided. Submitting ", dim(train_dat)[1], " genes to glmnet for selecting predictors"))
         train_dat <- as.matrix(train_dat)
         train_dat <- t(train_dat)
@@ -84,8 +90,16 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         }
         return(fit)
     } else {
-        all_genes <- elementMetadata(train_data)[, 1]
-        train_dat <- SummarizedExperiment::assay(train_data[which(all_genes %in% train_genes)])
+        if(class(train_data) == "SummarizedExperiment"){
+            all_genes <- elementMetadata(train_data)[, 1]
+            train_dat <- SummarizedExperiment::assay(train_data[which(all_genes %in% train_genes)])
+        } else if (class(train_data) == "seurat"){
+            all_genes <- rownames(train_data@data)
+            train_dat <- train_data@data[which(all_genes %in% train_genes), ]
+        } else {
+            all_genes <- rownames(train_data)
+            train_dat <- train_data[which(all_genes %in% train_genes), ]
+        }
         print(paste0("using ", dim(train_dat)[1], " genes for training model"))
         train_dat <- t(train_dat)
         
@@ -99,10 +113,10 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             message(sprintf("Training model for %s", label))
             celltype = factor(train_cell_type == label)
             fit[[label]] = tryCatch(
-                glmnet::cv.glmnet(train_dat, celltype, family = 'binomial', alpha = 0.9, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
+                glmnet::cv.glmnet(train_dat, celltype, family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
                 error = function(e) {
                     tryCatch(
-                        glmnet::cv.glmnet(train_dat, celltype,family = 'binomial', alpha = 0.9, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
+                        glmnet::cv.glmnet(train_dat, celltype,family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
                         error = function(e) {
                             warning(sprintf("Could not train model for variable %s", label))
                             return(NULL)

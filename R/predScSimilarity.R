@@ -1,7 +1,7 @@
 #' Predicts scRNA-seq data from trained multinomial cv.glmnet model
 #' 
 #' @param model trained model.
-#' @param test SingleCellExperiment object for prediction
+#' @param test seurat object, SummarizedExperiment object or expression matrix for prediction
 #' @param standardize a logical value specifying whether or not to standardize the test matrix
 #' @param lambda.1se logical value. FALSE will use lambda.min for prediction
 #' @param ... pass to predict. see ?predict.glmnet
@@ -25,7 +25,13 @@ predScSimilarity <- function(model, test, standardize = TRUE, lambda.1se = TRUE,
         return(X)
     }
 
-    newx <- t(as.matrix(SummarizedExperiment::assay(test)))
+    if(class(test) == "SummarizedExperiment"){
+        newx <- t(as.matrix(SummarizedExperiment::assay(test)))
+    } else if (class(test) == "seurat"){
+        newx <- t(as.matrix(test@data))
+    } else {
+        newx <- t(as.matrix(test))
+    }
 
     if (standardize == TRUE) {
         print("standardizing test data")
