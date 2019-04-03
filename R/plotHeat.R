@@ -58,7 +58,7 @@
 #' @import grDevices
 #' @import viridisLite
 #' @export
-plotHeat <- function(d , color = "BluWhRd", scale = "row", n = 50, alpha = 1, begin = 0, end = 1,  option = "D", direction = 1, show_colnames=TRUE, show_rownames=TRUE, cluster_rows=TRUE, cluster_cols=TRUE, drop_levels=TRUE, fontsize=9, legend=TRUE, border_color=NA, ...) {
+plotHeat <- function(d , color = "BluWhRd", scale = "row", n = 50, alpha = 1, begin = 0, end = 1,  option = "D", direction = 1, show_colnames = TRUE, show_rownames = TRUE, cluster_rows = TRUE, cluster_cols = TRUE, drop_levels = TRUE, fontsize = 9, legend = TRUE, border_color = NA, ...) {
   if(class(d[,1]) != "numeric") {
   rnames <- d[,1] # assign labels in column 1 to "rnames"
   mat_data <- data.matrix(d[,2:ncol(d)])    # transform column 2 to last column into a matrix
@@ -67,18 +67,18 @@ plotHeat <- function(d , color = "BluWhRd", scale = "row", n = 50, alpha = 1, be
   mat_data <- data.matrix(d)
   }
 
-  if (color == "RdWhBlu") {
+  if (length(color) > 1){
+    col_scale = color
+    col_palette <- grDevices::colorRampPalette(col_scale)(n = n)
+  } else if (color == "RdWhBlu") {
     col_scale = RColorBrewer::brewer.pal(9, "RdBu")
     col_palette <- grDevices::colorRampPalette(col_scale)(n = n)
-  } else if (color == "BluWhRd"){
+  } else if (color == "BluWhRd") {
     col_scale = rev(RColorBrewer::brewer.pal(9, "RdBu"))
     col_palette <- grDevices::colorRampPalette(col_scale)(n = n)
   } else if (color == "viridis") {
     col_scale = viridisLite::viridis(n, alpha = alpha, begin = begin, end = end, direction = direction, option = option)
     col_palette = col_scale
-    } else if (color == color) {
-    col_scale = color
-    col_palette <- grDevices::colorRampPalette(col_scale)(n = n)
   }
   p <- pheatmap::pheatmap(
     mat               = mat_data,
