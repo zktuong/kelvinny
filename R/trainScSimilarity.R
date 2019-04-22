@@ -12,6 +12,8 @@
 #' @examples
 #' fit <- trainScSimilarity(data, cluster, genes)
 #' @import glmnet
+#' @import Seurat
+#' @import doMC
 #' @import SummarizedExperiment
 #' @export
 #'      
@@ -35,7 +37,14 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         if(class(train_data) == "SummarizedExperiment"){
             train_dat <- SummarizedExperiment::assay(train_data)    
         } else if (class(train_data) == "seurat"){
-            train_dat <- train_data@data
+            tryCatch(
+                train_dat <- train_data@data, error = function(e) {
+                    tryCatch(
+                        train_dat <- Seurat::GetAssayData(object = train_data), error = function(e) {
+                warning(sprintf("are you sure this is a seurat v3 object?"))
+                return(NULL)
+                })
+            })
         } else {
             train_dat <- train_data
         }
@@ -54,7 +63,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         }  
         labels = names(sort(table(as.character(train_cell_type))))
         for(label in labels){
-            message(sprintf("Training model for %s", label))
+            message(sprintf("Training model for ", label))
             celltype = factor(train_cell_type == label)
             getPopulationOffset = function(y) {
                 if(!is.factor(y))
@@ -71,7 +80,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
                     tryCatch(
                         glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
                         error = function(e) {
-                            warning(sprintf("Could not train model for variable %s", label))
+                            warning(sprintf("Could not train model for variable ", label))
                             return(NULL)
                         }
                     )
@@ -94,8 +103,18 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             all_genes <- elementMetadata(train_data)[, 1]
             train_dat <- SummarizedExperiment::assay(train_data[which(all_genes %in% train_genes)])
         } else if (class(train_data) == "seurat"){
-            all_genes <- rownames(train_data@data)
-            train_dat <- train_data@data[which(all_genes %in% train_genes), ]
+            tryCatch(
+                all_genes <- rownames(train_data@data), error = function(e){
+                tryCatch(all_genes <- rownames(Seurat::GetAssayData(object = train_data)), error = function(e){
+                warning(sprintf("are you sure this is a seurat v3 object?"))
+                return(NULL)    
+                })})
+            tryCatch(
+            train_dat <- train_data@data[which(all_genes %in% train_genes), ], error = function(e){
+            tryCatch(train_dat <- Seurat::GetAssayData(object = train_data)[which(all_genes %in% train_genes), ], error = function(e){
+            warning(sprintf("are you sure this is a seurat v3 object?"))
+            return(NULL)                    
+            })})
         } else {
             all_genes <- rownames(train_data)
             train_dat <- train_data[which(all_genes %in% train_genes), ]
@@ -110,7 +129,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
 
         labels = names(sort(table(as.character(train_cell_type))))
         for(label in labels){
-            message(sprintf("Training model for %s", label))
+            message(sprintf("Training model for ", label))
             celltype = factor(train_cell_type == label)
             fit[[label]] = tryCatch(
                 glmnet::cv.glmnet(train_dat, celltype, family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
@@ -118,7 +137,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
                     tryCatch(
                         glmnet::cv.glmnet(train_dat, celltype,family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
                         error = function(e) {
-                            warning(sprintf("Could not train model for variable %s", label))
+                            warning(sprintf("Could not train model for variable ", label))
                             return(NULL)
                         }
                     )

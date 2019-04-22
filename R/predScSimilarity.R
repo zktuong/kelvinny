@@ -29,8 +29,13 @@ predScSimilarity <- function(model, test, standardize = TRUE, lambda.1se = TRUE,
     if(class(test) == "SummarizedExperiment"){
         newx <- t(as.matrix(SummarizedExperiment::assay(test)))
     } else if (class(test) == "seurat"){
-        newx <- t(as.matrix(test@data))
-    } else {
+        tryCatch(
+        newx <- t(as.matrix(test@data)), error = function(e) {
+            tryCatch(
+                        newx <- t(as.matrix(Seurat::GetAssayData(object = test))), error = function(e) {
+                warning(sprintf("are you sure this is a seurat v3 object?"))
+                return(NULL)
+    })})} else {
         newx <- t(as.matrix(test))
     }
 
@@ -41,7 +46,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, lambda.1se = TRUE,
     
     if (lambda.1se == TRUE) {
         for(class in trained.class){
-        message(sprintf("Predicting probabilities for %s", class))
+        message(sprintf("Predicting probabilities for ", class))
         model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
 
         preds[[class]] = predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.1se, newoffset = rep(0, nrow(newx)), ...)
@@ -49,7 +54,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, lambda.1se = TRUE,
         } 
     } else {
         for(class in trained.class){
-        message(sprintf("Predicting probabilities for %s", class))
+        message(sprintf("Predicting probabilities for ", class))
         model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
 
         preds[[class]] = predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.min, newoffset = rep(0, nrow(newx)), ...)
