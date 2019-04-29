@@ -22,14 +22,14 @@ RFclassifier <- function(training, training.genes = NULL, training.classes = NUL
 }
 if(class(training) == "seurat"){
     training.classes <- as.vector(x = training.classes)
-        tryCatch(
-    training.genes <- SetIfNull(x = training.genes, default = rownames(x = training@data)), error = function(e) {
-        training.genes <- SetIfNull(x = training.genes, default = rownames(x = Seurat::GetAssayData(training)))
+    training.genes <- tryCatch(
+    SetIfNull(x = training.genes, default = rownames(x = training@data)), error = function(e) {
+        SetIfNull(x = training.genes, default = rownames(x = Seurat::GetAssayData(training)))
     }
     )
-    tryCatch(
-    training.data <- as.data.frame(t(x = as.matrix(x = training@data[training.genes, ]))), error = function(e) {
-    training.data <- as.data.frame(t(x = as.matrix(x = Seurat::GetAssayData(training)[training.genes, ])))    
+    training.data <- tryCatch(
+    as.data.frame(t(x = as.matrix(x = training@data[training.genes, ]))), error = function(e) {
+    as.data.frame(t(x = as.matrix(x = Seurat::GetAssayData(training)[training.genes, ])))    
     }
     )    
     training.data$class <- factor(x = training.classes)

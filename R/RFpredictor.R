@@ -13,39 +13,25 @@ RFpredictor <- function(classifier, test, ...) {
 if(class(test) == "seurat"){
     testData <- test
     features <- classifier$forest$independent.variable.names
-    tryCatch(
-        features.to.add <- setdiff(x = features, y = rownames(x = testData@data)), error = function(e) {
-        features.to.add <- setdiff(x = features, y = rownames(x = Seurat::GetAssayData(testData)))    
+    features.to.add <- tryCatch(
+        setdiff(x = features, y = rownames(x = testData@data)), error = function(e) {
+        setdiff(x = features, y = rownames(x = Seurat::GetAssayData(testData)))    
         }
         )
-    tryCatch(
-        data.to.add <- matrix(data = 0, nrow = length(x = features.to.add), ncol = ncol(x = testData@data)), error = function(e) {
-        data.to.add <- matrix(data = 0, nrow = length(x = features.to.add), ncol = ncol(x = Seurat::GetAssayData(testData)))    
+    data.to.add <- tryCatch(
+        matrix(data = 0, nrow = length(x = features.to.add), ncol = ncol(x = testData@data)), error = function(e) {
+        matrix(data = 0, nrow = length(x = features.to.add), ncol = ncol(x = Seurat::GetAssayData(testData)))    
         }
         )
     rownames(x = data.to.add) <- features.to.add
-    tryCatch(
-        testData@data <- rbind(testData@data, data.to.add), error = function(e) {
-        testData.data <- Seurat::GetAssayData(testData)
-        testData.data <- rbind(testData.data, data.to.add)
+    testData.data <- tryCatch(
+        rbind(testData@data, data.to.add), error = function(e) {
+        rbind(Seurat::GetAssayData(testData), data.to.add)
         }
         )
-    tryCatch(
-        testData@data <- testData@data[features, ], error = function(e) {
-        testData.data <- testData.data[features, ]
-        }
-        )
-    tryCatch(
-        testData@data <- as.matrix(x = t(testData@data)), error = function(e) {
-        testData.data <- as.matrix(x = t(testData.data))
-        }
-        )
+    testData.data <- as.matrix(testData.data[features, ])
     message("Running Classifier ...")
-    tryCatch(
-        prediction <- predict(classifier, testData@data, ...), error = function(e) {
-        prediction <- predict(classifier, testData.data, ...)
-        }
-        )
+    prediction <- predict(classifier, testData.data, ...)
     return(prediction)
 } else {
     testData <- test

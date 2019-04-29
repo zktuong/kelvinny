@@ -36,10 +36,10 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         if(class(train_data) == "SummarizedExperiment"){
             train_dat <- SummarizedExperiment::assay(train_data)    
         } else if (class(train_data) == "seurat"){
-            tryCatch(
-                train_dat <- train_data@data, error = function(e) {
-                    tryCatch(
-                        train_dat <- Seurat::GetAssayData(object = train_data), error = function(e) {
+        train_dat <- tryCatch(
+                train_data@data, error = function(e) {
+                tryCatch(
+                        Seurat::GetAssayData(object = train_data), error = function(e) {
                 warning(sprintf("are you sure this is a seurat v3 object?"))
                 return(NULL)
                 })
@@ -102,15 +102,15 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             all_genes <- elementMetadata(train_data)[, 1]
             train_dat <- SummarizedExperiment::assay(train_data[which(all_genes %in% train_genes)])
         } else if (class(train_data) == "seurat"){
-            tryCatch(
+            all_genes <- tryCatch(
                 all_genes <- rownames(train_data@data), error = function(e){
-                tryCatch(all_genes <- rownames(Seurat::GetAssayData(object = train_data)), error = function(e){
+                all_genes <- tryCatch(all_genes <- rownames(Seurat::GetAssayData(object = train_data)), error = function(e){
                 warning(sprintf("are you sure this is a seurat v3 object?"))
                 return(NULL)    
                 })})
-            tryCatch(
+            train_dat <- tryCatch(
             train_dat <- train_data@data[which(all_genes %in% train_genes), ], error = function(e){
-            tryCatch(train_dat <- Seurat::GetAssayData(object = train_data)[which(all_genes %in% train_genes), ], error = function(e){
+            train_dat <- tryCatch(train_dat <- Seurat::GetAssayData(object = train_data)[which(all_genes %in% train_genes), ], error = function(e){
             warning(sprintf("are you sure this is a seurat v3 object?"))
             return(NULL)                    
             })})

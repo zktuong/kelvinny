@@ -29,10 +29,10 @@ predScSimilarity <- function(model, test, standardize = TRUE, lambda.1se = TRUE,
     if(class(test) == "SummarizedExperiment"){
         newx <- t(as.matrix(SummarizedExperiment::assay(test)))
     } else if (class(test) == "seurat"){
-        tryCatch(
-        newx <- t(as.matrix(test@data)), error = function(e) {
+        newx <- tryCatch(
+        t(as.matrix(test@data)), error = function(e) {
             tryCatch(
-                        newx <- t(as.matrix(Seurat::GetAssayData(object = test))), error = function(e) {
+                t(as.matrix(Seurat::GetAssayData(object = test))), error = function(e) {
                 warning(sprintf("are you sure this is a seurat v3 object?"))
                 return(NULL)
     })})} else {
