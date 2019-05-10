@@ -140,3 +140,11 @@ pred <- predScSimilarity(model, test.seurat)
 
 ```
 
+### codon
+Converts codon nucleotide sequences to amino acids
+```R
+codon("ttt")
+# [1] "Phe"
+codon("ttt", "ttg")
+# [1] "Phe>Leu"
+```

@@ -2,6 +2,7 @@
 
 export(RFclassifier)
 export(RFpredictor)
+export(codon)
 export(gg_color_hue)
 export(init_Kelvinny)
 export(pbcopy)
