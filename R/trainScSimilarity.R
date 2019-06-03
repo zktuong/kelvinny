@@ -19,7 +19,6 @@
             
 trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, standardize = TRUE, nfolds = 10, alpha = 0.99, nParallel = parallel::detectCores(),  ...) 
 {
-    set.seed(42)
     fit <-  list()
 
     standardizing <- function(X) {
@@ -37,9 +36,9 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             train_dat <- SummarizedExperiment::assay(train_data)    
         } else if (class(train_data) == "seurat"){
         train_dat <- tryCatch(
-                train_data@data, error = function(e) {
+                as.matrix(train_data@data), error = function(e) {
                 tryCatch(
-                        Seurat::GetAssayData(object = train_data), error = function(e) {
+                        as.matrix(Seurat::GetAssayData(object = train_data)), error = function(e) {
                 warning(sprintf("are you sure this is a seurat v3 object?"))
                 return(NULL)
                 })
@@ -48,8 +47,9 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             train_dat <- train_data
         }
         print(paste0("No pre-defined genes provided. Submitting ", dim(train_dat)[1], " genes to glmnet for selecting predictors"))
-        train_dat <- as.matrix(train_dat)
+        print("transposing matrix")
         train_dat <- t(train_dat)
+        
         Zero_col <- which(colSums(train_dat) == 0)
         duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
         if (length(c(Zero_col, duplicated_col)) != 0) {
