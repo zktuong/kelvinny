@@ -35,7 +35,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
     if(is.null(train_genes)) {
         if(class(train_data) == "SummarizedExperiment"){
             train_dat <- SummarizedExperiment::assay(train_data)    
-        } else if (class(train_data) == "seurat"){
+        } else if (class(train_data) == "Seurat"){
         train_dat <- tryCatch(
                 train_data@data, error = function(e) {
                 tryCatch(
@@ -106,7 +106,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         if(class(train_data) == "SummarizedExperiment"){
             all_genes <- elementMetadata(train_data)[, 1]
             train_dat <- SummarizedExperiment::assay(train_data[which(all_genes %in% train_genes)])
-        } else if (class(train_data) == "seurat"){
+        } else if (class(train_data) == "Seurat"){
             all_genes <- tryCatch(
                 all_genes <- rownames(train_data@data), error = function(e){
                 all_genes <- tryCatch(all_genes <- rownames(GetAssayData(object = train_data)), error = function(e){
