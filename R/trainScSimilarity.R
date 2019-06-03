@@ -37,9 +37,9 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             train_dat <- SummarizedExperiment::assay(train_data)    
         } else if (class(train_data) == "seurat"){
         train_dat <- tryCatch(
-                as.matrix(train_data@data), error = function(e) {
+                train_data@data, error = function(e) {
                 tryCatch(
-                        as.matrix(GetAssayData(object = train_data)), error = function(e) {
+                        GetAssayData(object = train_data), error = function(e) {
                 warning(sprintf("are you sure this is a seurat v3 object?"))
                 return(NULL)
                 })
@@ -48,6 +48,10 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             train_dat <- train_data
         }
         print(paste0("No pre-defined genes provided. Submitting ", dim(train_dat)[1], " genes to glmnet for selecting predictors"))
+        print("converting to matrix")
+        print(class(train_dat))
+        train_data <- as.matrix(train_dat)
+
         print("transposing matrix")
         train_dat <- t(train_dat)
         
