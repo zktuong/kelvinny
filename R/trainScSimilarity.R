@@ -50,7 +50,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         print(paste0("No pre-defined genes provided. Submitting ", dim(train_dat)[1], " genes to glmnet for selecting predictors"))
         print("converting to matrix")
         print(class(train_dat))
-        train_data <- as.matrix(train_dat)
+        train_dat <- as.matrix(train_dat)
 
         print("transposing matrix")
         train_dat <- t(train_dat)
@@ -124,6 +124,8 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             train_dat <- train_data[which(all_genes %in% train_genes), ]
         }
         print(paste0("using ", dim(train_dat)[1], " genes for training model"))
+        
+        train_dat <- as.matrix(train_dat)
         train_dat <- t(train_dat)
         
         if (standardize == TRUE) {
