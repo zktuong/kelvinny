@@ -14,7 +14,6 @@
 #' @import glmnet
 #' @import doMC
 #' @import SummarizedExperiment
-#' @suggest Seurat
 #' @export
 #'      
             
@@ -40,7 +39,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
                 train_data@data, error = function(e) {
                 tryCatch(
                         GetAssayData(object = train_data), error = function(e) {
-                warning(sprintf("are you sure this is a seurat v3 object?"))
+                warning(paste0("are you sure this is a seurat v3 object?"))
                 return(NULL)
                 })
             })
@@ -67,7 +66,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         }  
         labels = names(sort(table(as.character(train_cell_type))))
         for(label in labels){
-            message(sprintf("Training model for ", label))
+            print(paste0("Training model for ", label))
             celltype = factor(train_cell_type == label)
             getPopulationOffset = function(y) {
                 if(!is.factor(y))
@@ -84,7 +83,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
                     tryCatch(
                         glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
                         error = function(e) {
-                            warning(sprintf("Could not train model for variable ", label))
+                            warning(paste0("Could not train model for variable ", label))
                             return(NULL)
                         }
                     )
@@ -110,13 +109,13 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
             all_genes <- tryCatch(
                 all_genes <- rownames(train_data@data), error = function(e){
                 all_genes <- tryCatch(all_genes <- rownames(GetAssayData(object = train_data)), error = function(e){
-                warning(sprintf("are you sure this is a seurat v3 object?"))
+                warning(paste0("are you sure this is a seurat v3 object?"))
                 return(NULL)    
                 })})
             train_dat <- tryCatch(
             train_dat <- train_data@data[which(all_genes %in% train_genes), ], error = function(e){
             train_dat <- tryCatch(train_dat <- GetAssayData(object = train_data)[which(all_genes %in% train_genes), ], error = function(e){
-            warning(sprintf("are you sure this is a seurat v3 object?"))
+            warning(paste0("are you sure this is a seurat v3 object?"))
             return(NULL)                    
             })})
         } else {
@@ -135,7 +134,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
 
         labels = names(sort(table(as.character(train_cell_type))))
         for(label in labels){
-            message(sprintf("Training model for ", label))
+            print(paste0("Training model for ", label))
             celltype = factor(train_cell_type == label)
             fit[[label]] = tryCatch(
                 glmnet::cv.glmnet(train_dat, celltype, family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, ...), 
@@ -143,7 +142,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
                     tryCatch(
                         glmnet::cv.glmnet(train_dat, celltype,family = 'binomial', alpha = alpha, nfolds = nfolds, type.measure = 'class', parallel = nParallel, lambda = exp(seq(-10, -3, length.out=100)), ...),
                         error = function(e) {
-                            warning(sprintf("Could not train model for variable ", label))
+                            warning(paste0("Could not train model for variable ", label))
                             return(NULL)
                         }
                     )
