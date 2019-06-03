@@ -14,6 +14,7 @@
 #' @import glmnet
 #' @import doMC
 #' @import SummarizedExperiment
+#' @suggest Seurat
 #' @export
 #'      
             
@@ -38,7 +39,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         train_dat <- tryCatch(
                 as.matrix(train_data@data), error = function(e) {
                 tryCatch(
-                        as.matrix(Seurat::GetAssayData(object = train_data)), error = function(e) {
+                        as.matrix(GetAssayData(object = train_data)), error = function(e) {
                 warning(sprintf("are you sure this is a seurat v3 object?"))
                 return(NULL)
                 })
@@ -104,13 +105,13 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, s
         } else if (class(train_data) == "seurat"){
             all_genes <- tryCatch(
                 all_genes <- rownames(train_data@data), error = function(e){
-                all_genes <- tryCatch(all_genes <- rownames(Seurat::GetAssayData(object = train_data)), error = function(e){
+                all_genes <- tryCatch(all_genes <- rownames(GetAssayData(object = train_data)), error = function(e){
                 warning(sprintf("are you sure this is a seurat v3 object?"))
                 return(NULL)    
                 })})
             train_dat <- tryCatch(
             train_dat <- train_data@data[which(all_genes %in% train_genes), ], error = function(e){
-            train_dat <- tryCatch(train_dat <- Seurat::GetAssayData(object = train_data)[which(all_genes %in% train_genes), ], error = function(e){
+            train_dat <- tryCatch(train_dat <- GetAssayData(object = train_data)[which(all_genes %in% train_genes), ], error = function(e){
             warning(sprintf("are you sure this is a seurat v3 object?"))
             return(NULL)                    
             })})
