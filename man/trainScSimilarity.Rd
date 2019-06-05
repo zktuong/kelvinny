@@ -2,7 +2,7 @@
 % Please edit documentation in R/trainScSimilarity.R
 \name{trainScSimilarity}
 \alias{trainScSimilarity}
-\title{Trains scRNA-seq data to be used as multinomial glmnet::cv.glmnet model}
+\title{Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model}
 \usage{
 trainScSimilarity(train_data, train_cell_type, train_genes = NULL,
   standardize = TRUE, nfolds = 10, alpha = 0.99,
@@ -29,7 +29,7 @@ trainScSimilarity(train_data, train_cell_type, train_genes = NULL,
 Generates a trained model for predicting cell types for scRNAseq data
 }
 \description{
-Trains scRNA-seq data to be used as multinomial glmnet::cv.glmnet model
+Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model
 }
 \examples{
 fit <- trainScSimilarity(data, cluster, genes)

@@ -1,4 +1,4 @@
-#' Trains scRNA-seq data to be used as multinomial glmnet::cv.glmnet model
+#' Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model
 #' 
 #' @param train_data seurat object, SummarizedExperiment object or expression matrix for training
 #' @param train_cell_type The cell types/clusters in the training data set
