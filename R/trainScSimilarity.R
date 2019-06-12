@@ -13,7 +13,6 @@
 #' fit <- trainScSimilarity(data, cluster, genes)
 #' @import glmnet
 #' @import doMC
-#' @import SummarizedExperiment
 #' @export
 #'      
             

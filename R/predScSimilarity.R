@@ -9,7 +9,6 @@
 #' @examples
 #' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
-#' @import SummarizedExperiment
 #' @export
 #'      
             
