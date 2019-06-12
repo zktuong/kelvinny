@@ -14,11 +14,13 @@ Imports:
 	pheatmap,
 	ranger,
 	viridisLite,
-	devtools
+	devtools,
+	SummarizedExperiment
 Suggests:
 	ggplot2,
 	covr,
-	dplyr
+	dplyr,
+	Seurat
 LazyData: true
 RoxygenNote: 6.1.1
 

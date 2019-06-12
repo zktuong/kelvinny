@@ -7,7 +7,6 @@ before_install:
   - chmod 755 ./travis-tool.sh
 
 r:
-  - bioc-devel
   - bioc-release
 
 after_failure:
