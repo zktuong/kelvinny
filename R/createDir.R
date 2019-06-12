@@ -11,6 +11,7 @@ createDir <- function(directory)
 {
 	if (!dir.exists(directory))
 	{
+	print(paste0("creating path to ", file.path(directory)))
     dir.create(directory, recursive = T)
 	}
 }
