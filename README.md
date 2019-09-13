@@ -91,7 +91,14 @@ pasted_data <- pbpaste()
 Uses RandomForest algorithm to classify data, for example seurat single-cell data
 ```R
 # library(kelvinny)
+## running RF classifier neat
+classifier.class <- RFclassifier(object = train.seurat, training.classes = train.seurat@ident)
+prediction.class <- RFpredictor(classifier.class, as.matrix(test.seurat@data))
+RF_class <- prediction.class$prediction
+names(RF_class) <- colnames(test.seurat@data) 
+test.seurat <- AddMetaData(test.seurat, metadata = RF_class, "RF_class")
 
+## running RF classifier but extract the probability
 classifier <- RFclassifier(train.seurat, training.classes = train.seurat@ident, importance = "impurity", probability = TRUE)
 prediction <- RFpredictor(classifier, as.matrix(test.seurat@data))
 
