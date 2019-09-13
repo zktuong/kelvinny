@@ -90,9 +90,10 @@ pasted_data <- pbpaste()
 ### RFclassifier/RFpredictor
 Uses RandomForest algorithm to classify data, for example seurat single-cell data
 ```R
+# currently only works for seurat v2 and not v3, or expression matrix
 # library(kelvinny)
 ## running RF classifier neat
-classifier.class <- RFclassifier(object = train.seurat, training.classes = train.seurat@ident)
+classifier.class <- RFclassifier(train.seurat, training.classes = train.seurat@ident)
 prediction.class <- RFpredictor(classifier.class, as.matrix(test.seurat@data))
 RF_class <- prediction.class$prediction
 names(RF_class) <- colnames(test.seurat@data) 
