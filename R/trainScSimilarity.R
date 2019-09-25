@@ -72,12 +72,20 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         } else {
             test_dat <- test_data
         }
-
-        genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
-        train_Dat <- train_dat[genes.intersect, ]
-
         print(paste0("No pre-defined genes provided. Filtering ", dim(train_dat)[1], 
             " genes for training"))
+        
+        Zero_col <- which(colSums(train_dat) == 0)
+        duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
+        if (length(c(Zero_col, duplicated_col)) != 0) {
+            print(paste0("Removing ", length(c(Zero_col, duplicated_col)), 
+                " genes with no variance"))
+            train_dat <- train_dat[, -c(Zero_col, duplicated_col)]
+        }
+        
+        genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
+        train_Dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
+
         print(paste0("Submitting ", length(genes.intersect), 
             " intersecting genes to glmnet for selecting predictors"))        
 
@@ -87,13 +95,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         train_dat <- t(train_dat)
         
-        Zero_col <- which(colSums(train_dat) == 0)
-        duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
-        if (length(c(Zero_col, duplicated_col)) != 0) {
-            print(paste0("Removing ", length(c(Zero_col, duplicated_col)), 
-                " genes with no variance"))
-            train_dat <- train_dat[, -c(Zero_col, duplicated_col)]
-        }
+        
         if (standardize == TRUE) {
             print("Standardizing training dataset")
             train_dat <- standardizeSparse(train_dat)
@@ -193,8 +195,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             })
         } else {
             all_genes <- rownames(train_data)
-            train_dat <- train_data[which(all_genes %in% train_genes), 
-                ]
+            train_dat <- train_data[which(all_genes %in% train_genes), ]
         }
         print(paste0("using ", dim(train_dat)[1], " genes for training model"))
         
