@@ -21,7 +21,7 @@
 #'      
             
 trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, 
-    standardize = TRUE, nfolds = 10, a = 0.85, l.min = TRUE, multinomial = FALSE, 
+    standardize = TRUE, nfolds = 10, a = 0.9, l.min = FALSE, multinomial = TRUE, 
     nParallel = parallel::detectCores(), ...) {
     
     fit <- list()
