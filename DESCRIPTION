@@ -15,7 +15,8 @@ Imports:
 	ranger,
 	viridisLite,
 	devtools,
-	SummarizedExperiment
+	SummarizedExperiment,
+	svMisc
 Suggests:
 	ggplot2,
 	covr,
