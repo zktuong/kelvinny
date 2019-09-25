@@ -60,7 +60,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
         	for(class in trained.class){
         	print(paste0("Predicting probabilities for ", class))
         	model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
-        	
+        	model.genes[[class]] <- model.genes[[class]][!is.na(model.genes[[class]])]
         	preds[[class]] <- predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.1se, newoffset = rep(0, nrow(newx)), ...)
         	colnames(preds[[class]]) <- class        
         	} 
@@ -68,7 +68,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
         	for(class in trained.class){
         	print(paste0("Predicting probabilities for ", class))
         	model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
-	
+			model.genes[[class]] <- model.genes[[class]][!is.na(model.genes[[class]])]
         	preds[[class]] = predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.min, newoffset = rep(0, nrow(newx)), ...)
         	colnames(preds[[class]]) <- class           
         	}
@@ -77,9 +77,11 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
     	print("Predicting probabilities")
     	if (l.min == FALSE) {    		
     		model.genes <- match(rownames(model$glmnet.fit$beta[[1]]), colnames(newx))
+    		model.genes <- model.genes[!is.na(model.genes)]
     		preds <- predict(model, newx = newx[,model.genes], s = model$lambda.1se, ...)
     	} else {
     		model.genes <- match(rownames(model$glmnet.fit$beta[[1]]), colnames(newx))
+    		model.genes <- model.genes[!is.na(model.genes)]
     		preds <- predict(model, newx = newx[,model.genes], s = model$lambda.min, ...)
     	}
 
@@ -88,5 +90,6 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
     colnames(preds) <- gsub("[.]1$", "", colnames(preds))
     return(preds)
 }
+
 
     
