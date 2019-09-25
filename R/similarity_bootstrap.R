@@ -31,9 +31,8 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
     for (i in 1:nboots) {
         print(paste0("Running job #", i))
         fit <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, train_genes = trainingGenes, standardize = scale, nfolds = nfold.cv, a = a.parameter, l.min = lambda.min, multinomial = family.multinomial, nParallel = nCores, ...)
-        pred <- predScSimilarity(model = fit, test = testingSet, standardize = scale, l.min = lambda.min, ...)
+        prediction[[i]] <- predScSimilarity(model = fit, test = testingSet, standardize = scale, l.min = lambda.min, ...)
         print(paste0("Finished job #", i))
-        return(pred)
         svMisc::progress((i/nboots)*100, progress.bar = TRUE)
         Sys.sleep(1)
         if (i == nboots) cat('Done!\n')
