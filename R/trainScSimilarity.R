@@ -84,7 +84,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         
         genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
-        train_Dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
+        train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
 
         print(paste0("Submitting ", length(genes.intersect), 
             " intersecting genes to glmnet for selecting predictors"))        
