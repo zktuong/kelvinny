@@ -23,15 +23,25 @@
 #' @export
 #' 
 
-similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboots = 50, trainingGenes = NULL,
+similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboots = 50, simplify = FALSE, trainingGenes = NULL,
     scale = TRUE, nfold.cv = 10, a.parameter = 0.9, lambda.min = FALSE, family.multinomial = TRUE, 
     nCores = parallel::detectCores(), ...){
-    require(pbmcapply)
-    boots <- as.list(1:nboots)
-    prediction <- mclapply(boots, function(x){
+    require(foreach)
+    require(doMC)
+    if (nCores > 1) {
+        doMC::registerDoMC(cores = nCores)
+    }
+
+    prediction <- foreach(i = 1:nboots) %dopar% {
         fit <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, train_genes = trainingGenes, standardize = scale, nfolds = nfold.cv, a = a.parameter, l.min = lambda.min, multinomial = family.multinomial, nParallel = nCores, ...)
         pred <- predScSimilarity(model = fit, test = testingSet, standardize = scale, l.min = lambda.min, ...)
         return(pred)
-    }, mc.cores = nCores)
-    return(prediction)
+    }
+    
+    if(simplify){
+        prediction <- Reduce("+", prediction) / length(prediction)
+        return(prediction)
+    } else {            
+        return(prediction)
+    }
 }
