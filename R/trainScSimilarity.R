@@ -1,7 +1,8 @@
 #' Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model
 #' 
-#' @param train_data seurat object, SummarizedExperiment object or expression matrix for training
+#' @param train_data Seurat object, SummarizedExperiment object or expression matrix for training
 #' @param train_cell_type The cell types/clusters in the training data set
+#' @param test_data Seurat object, SummarizedExperiment object or expression matrix for testing later
 #' @param train_genes Genes to use for training. If not provided, it will try to pick from all genes in the training dataset as per default glmnet.
 #' @param standardize a logical value specifying whether or not to standardize the train matrix
 #' @param nfolds integer specifying bin for cross validation. Use all samples if doing LOOCV.
@@ -20,7 +21,7 @@
 #' @export
 #'      
             
-trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL, 
+trainScSimilarity <- function(train_data, train_cell_type, test_data, train_genes = NULL, 
     standardize = TRUE, nfolds = 10, a = 0.9, l.min = FALSE, multinomial = TRUE, 
     nParallel = parallel::detectCores(), ...) {
     
@@ -58,8 +59,28 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL,
         } else {
             train_dat <- train_data
         }
-        print(paste0("No pre-defined genes provided. Submitting ", dim(train_dat)[1], 
-            " genes to glmnet for selecting predictors"))
+
+        if (class(test_data) == "SummarizedExperiment") {
+            test_dat <- SummarizedExperiment::assay(test_data)
+        } else if (class(test_data) == "Seurat") {
+            test_dat <- tryCatch(test_data@data, error = function(e) {
+                tryCatch(GetAssayData(object = test_data), error = function(e) {
+                  warning(paste0("are you sure this is a seurat v3 object?"))
+                  return(NULL)
+                })
+            })
+        } else {
+            test_dat <- test_data
+        }
+
+        genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
+        train_Dat <- train_dat[genes.intersect, ]
+
+        print(paste0("No pre-defined genes provided. Filtering ", dim(train_dat)[1], 
+            " genes for training"))
+        print(paste0("Submitting ", length(genes.intersect), 
+            " intersecting genes to glmnet for selecting predictors"))        
+
         print("Transposing matrix")
         if (class(train_dat) == "matrix") {
             train_dat <- Matrix::Matrix(train_dat, sparse = TRUE)
