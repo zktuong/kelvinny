@@ -85,7 +85,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL,
         }
         
         if (multinomial == FALSE) {
-            print("Training modeil with family = binomial")
+            print("Training model with family = binomial")
             for (label in labels) {
                 print(paste0("Training model for ", label))
                 celltype = factor(train_cell_type == label)
@@ -194,7 +194,7 @@ trainScSimilarity <- function(train_data, train_cell_type, train_genes = NULL,
             labels <- levels(train_cell_type)
         }
         if (multinomial == FALSE) {
-            print("Training modeil with family = binomial")
+            print("Training model with family = binomial")
             for (label in labels) {
                 print(paste0("Training model for ", label))
                 celltype = factor(train_cell_type == label)
