@@ -13,7 +13,7 @@
 #' @param ... other functions pass to glmnet
 #' @return Generates a trained model for predicting cell types for scRNAseq data
 #' @examples
-#' fit <- trainScSimilarity(data, cluster, genes)
+#' fit <- trainScSimilarity(trainData, clusters, testData)
 #' @import glmnet
 #' @import Matrix
 #' @import doMC
