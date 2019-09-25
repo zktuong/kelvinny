@@ -33,12 +33,15 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
     }
 
     prediction <- foreach(i = 1:nboots) %dopar% {
+        print(paste0("Running job #", i))
         fit <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, train_genes = trainingGenes, standardize = scale, nfolds = nfold.cv, a = a.parameter, l.min = lambda.min, multinomial = family.multinomial, nParallel = nCores, ...)
         pred <- predScSimilarity(model = fit, test = testingSet, standardize = scale, l.min = lambda.min, ...)
+        print(paste0("Finished job #", i))
         return(pred)
     }
     
     if(simplify){
+        print("Averaging predictions")
         prediction <- Reduce("+", prediction) / length(prediction)
         return(prediction)
     } else {            
