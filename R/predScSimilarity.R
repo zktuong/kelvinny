@@ -1,4 +1,4 @@
-#' Predicts scRNA-seq data from trained multinomial cv.glmnet model
+#' Predicts expression data for class probability/similarity with a trained binomial/multinomial glmnet logistic regression model
 #' 
 #' @param model trained model.
 #' @param test Seurat object, SummarizedExperiment object or expression matrix for prediction
