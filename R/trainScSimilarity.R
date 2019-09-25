@@ -142,7 +142,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             }
             return(fit)
         } else {
-            print("Training model with family = mulinomial")
+            print("Training model with family = multinomial")
             fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
                 family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
                 parallel = nParallel, ...), error = function(e) {
@@ -249,7 +249,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             }
             return(fit)
         } else {
-            print("Training model with family = mulinomial")
+            print("Training model with family = multinomial")
             fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
                 family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
                 parallel = nParallel, ...), error = function(e) {
