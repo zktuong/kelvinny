@@ -90,7 +90,6 @@ pasted_data <- pbpaste()
 ### RFclassifier/RFpredictor
 Uses RandomForest algorithm to classify data, for example seurat single-cell data
 ```R
-# currently only works for seurat v2 and not v3, or expression matrix
 # library(kelvinny)
 ## running RF classifier neat
 classifier.class <- RFclassifier(train.seurat, training.classes = train.seurat@ident)
@@ -136,7 +135,7 @@ pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
 ```
 
 ### trainScSimilarity/predScSimilarity
-Similar to above. Uses glmnet algorithm to predict similarity of cells to reference/training data.
+A cleaner version of above. Uses glmnet algorithm to predict similarity of cells to reference/training data.
 Can take expression matrix as well as Seurat or SummarizedExperiment objects.
 ```R
 ### SummarizedExperiment object
