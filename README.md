@@ -135,16 +135,25 @@ model <- train_model_glmnet(data, variable_colname = "disease", alpha = 0.5, cut
 pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
 ```
 
-### trainScSimilarity/predScSimilarity
-Similar to above. Uses glmnet algorithm to predict similarity of cells to reference/training data.
-Can take expression matrix as well as Seurat or SummarizedExperiment objects.
+### trainScSimilarity/predScSimilarity/boostrap_similarity
+Similar to above. Uses glmnet logistic regression algorithms to predict similarity of cells to reference/training data.
+Can take expression matrix (normal or sparse) as well as Seurat or SummarizedExperiment objects.
 ```R
 ### SummarizedExperiment object
-model <- trainScSimilarity(train.sce, colData(train.sce)$CellType, nfolds = dim(train.sce)[2])
+model <- trainScSimilarity(train.sce, colData(train.sce)$CellType, test.sce, nfolds = 10)
 pred <- predScSimilarity(model, test.sce)
-### Seurat object
-model <- trainScSimilarity(train.seurat, seurat@ident, nfolds = dim(train.seurat@data)[2])
+### Seurat object v2
+model <- trainScSimilarity(train.seurat, seurat@ident, test.seurat, nfolds = 10)
 pred <- predScSimilarity(model, test.seurat)
+
+### Seurat object v3
+model <- trainScSimilarity(train.seurat, Idents(seurat), test.seurat, nfolds = 10)
+pred <- predScSimilarity(model, test.seurat)
+
+### bootstrap the training and prediction to iterate multiple times
+# using Seurat v3 as an example
+prediction <- bootstrap(train.seurat, Idents(seurat), test.seurat, nfolds = 10, nboots = 50, simplify = FALSE) # returns the full 50 bootstrap runs as a list
+prediction <- bootstrap(train.seurat, Idents(seurat), test.seurat, nfolds = 10, nboots = 50, simplify = TRUE) # returns the average of the 50 bootstrap runs in a single data.frame
 
 ```
 
@@ -155,4 +164,19 @@ codon("ttt")
 # [1] "Phe"
 codon("ttt", "ttg")
 # [1] "Phe>Leu"
+```
+
+### parse_gmt
+Reads in a .gmt file and converts to a table, just like .gmx
+```R
+parse_gmt("file.gmt")
+```
+
+### createDir/dirCreate
+Creates path to directory. always recursive =D
+```R
+dirCreate('./test/test/test/test')
+# [1] "creating path to ./test/test/test/test"
+createDir('./test/test2/test3/test4')
+# [1] "creating path to ./test/test2/test3/test4"
 ```
