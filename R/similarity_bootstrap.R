@@ -15,7 +15,6 @@
 #' @import crayon
 #' @import parallel
 #' @import SummarizedExperiment
-#' @import Matrix
 #' @import doMC
 #' @export
 #' 

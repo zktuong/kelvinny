@@ -21,7 +21,8 @@ Suggests:
 	ggplot2,
 	covr,
 	dplyr,
-	Seurat
+	Seurat,
+	Matrix
 LazyData: true
 RoxygenNote: 6.1.1
 
