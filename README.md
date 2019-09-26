@@ -202,8 +202,16 @@ start <- Sys.time()
 write.table(mat, gzfile("./mat.txt.gz"), quote = FALSE, sep = "\t", row.names = TRUE)
 end <- Sys.time()
 end - start
+# Time difference of 8.772404 mins
 
 # library(kelvinny)
+# write to .h5 
+start <- Sys.time()
+mtx_to_h5(mat, "mat.h5")
+end <- Sys.time()
+end - start
+# Time difference of 2.736347 mins
+
 # write to .h5 and convert to .txt 
 start <- Sys.time()
 mtx_to_h5totxt(mat, "mat.h5")
@@ -218,4 +226,5 @@ end <- Sys.time()
 end - start
 
 
+## maybe only slight improvement =x
 ```

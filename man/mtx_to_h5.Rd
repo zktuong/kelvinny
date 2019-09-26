@@ -22,5 +22,6 @@ Save large (dense) matrix to .h5 format
 Saves matrix to .h5 format quickly
 }
 \examples{
-saveAsH5(matrixA, "./path/to/matrix.h5")
+mtx_to_h5(matrixA, "matrix.h5")
+mtx_to_h5totxt(matrixA, "matrix.h5")
 }

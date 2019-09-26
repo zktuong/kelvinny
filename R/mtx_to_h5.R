@@ -8,9 +8,6 @@
 #' @examples
 #' mtx_to_h5(matrixA, "matrix.h5")
 #' mtx_to_h5totxt(matrixA, "matrix.h5")
-#' @import rhdf5
-#' @import crayon
-#' @import reticulate
 #' @export
 #'   
 
