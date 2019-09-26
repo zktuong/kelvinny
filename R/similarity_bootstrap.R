@@ -43,11 +43,11 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
         }
     } else {
         prediction <- foreach(i = 1:nboots) %dopar% {
-            print(paste0("Training bootstrap #", i))
+            cat(paste0("Training bootstrap #", i))
             fit_model <- invisible(trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, ...))
             cat(paste0("Predicting bootstrap #", i))
             pred <- invisible(predScSimilarity(model = fit_model, test = testingSet, ...))
-            cat(paste0("Finished bootstrap #", i))
+            cat(green(paste0("Finished bootstrap #", i)))
             return(pred)
             }
         }
