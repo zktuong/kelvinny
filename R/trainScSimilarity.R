@@ -78,7 +78,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         Zero_col <- which(colSums(train_dat) == 0)
         duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
         if (length(c(Zero_col, duplicated_col)) != 0) {
-            print(paste0("Removing ", length(c(Zero_col, duplicated_col)), 
+            cat(paste0("Removing ", length(c(Zero_col, duplicated_col)), 
                 " genes with no variance"))
             train_dat <- train_dat[, -c(Zero_col, duplicated_col)]
         }
@@ -130,10 +130,10 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             cat("Extracting best gene features...")
             for (i in 1:length(fit)) {
                 if (l.min) {
-                  print("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted")
+                  cat("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.min))
                 } else {
-                  print("The simplest model that has comparable error to the best model given the uncertainty")
+                  cat("The simplest model that has comparable error to the best model given the uncertainty")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.1se))
                 }
                 fit_out <- as.data.frame(fit_out)
@@ -236,10 +236,10 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             cat("Extracting best gene features...")
             for (i in 1:length(fit)) {
                 if (l.min) {
-                  print("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted")
+                  cat("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.min))
                 } else {
-                  print("The simplest model that has comparable error to the best model given the uncertainty")
+                  cat("The simplest model that has comparable error to the best model given the uncertainty")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.1se))
                 }
                 fit_out <- as.data.frame(fit_out)
