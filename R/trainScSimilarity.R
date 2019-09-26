@@ -15,6 +15,7 @@
 #' @examples
 #' fit <- trainScSimilarity(trainData, clusters, testData)
 #' @import glmnet
+#' @import crayon
 #' @import Matrix
 #' @import doMC
 #' @import SummarizedExperiment
@@ -72,24 +73,21 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         } else {
             test_dat <- test_data
         }
-        cat(paste0("No pre-defined genes provided. Filtering ", dim(train_dat)[1], 
-            " genes for training"))
+        cat(paste0("No pre-defined genes provided. Filtering ", dim(train_dat)[1], " genes for training"), sep = "\n")
         
         Zero_col <- which(colSums(train_dat) == 0)
         duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
         if (length(c(Zero_col, duplicated_col)) != 0) {
-            cat(paste0("Removing ", length(c(Zero_col, duplicated_col)), 
-                " genes with no variance"))
+            cat(paste0("Removing ", length(c(Zero_col, duplicated_col)), " genes with no variance"), sep = "\n")
             train_dat <- train_dat[, -c(Zero_col, duplicated_col)]
         }
         
         genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
         train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
 
-        cat(paste0("Submitting ", length(genes.intersect), 
-            " intersecting genes to glmnet for selecting predictors"))        
+        cat(paste0("Submitting ", length(genes.intersect), " intersecting genes to glmnet for selecting predictors"), sep = "\n")
 
-        cat("Transposing matrix")
+        cat("Transposing matrix", sep = "\n")
         if (class(train_dat) == "matrix") {
             train_dat <- Matrix::Matrix(train_dat, sparse = TRUE)
         }
@@ -97,7 +95,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         
         
         if (standardize == TRUE) {
-            cat("Standardizing training dataset")
+            cat("Standardizing training dataset", sep = "\n")
             train_dat <- standardizeSparse(train_dat)
         }
         
@@ -108,9 +106,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         
         if (multinomial == FALSE) {
-            cat(red("Training model with family = binomial"))
+            cat(crayon::magenta("Training model with family = binomial"), sep = "\n")
             for (label in labels) {
-                cat(green(paste0("Training model for ", label)))
+                cat(crayon::green(paste0("Training model for ", label)), sep = "\n")
                 celltype = factor(train_cell_type == label)
                 
                 fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, 
@@ -127,24 +125,24 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                   })
                 })
             }
-            cat("Extracting best gene features...")
+            cat("Extracting best gene features...", sep = "\n")
             for (i in 1:length(fit)) {
                 if (l.min) {
-                  cat("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted")
+                  cat("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted", sep = "\n")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.min))
                 } else {
-                  cat("The simplest model that has comparable error to the best model given the uncertainty")
+                  cat("The simplest model that has comparable error to the best model given the uncertainty", sep = "\n")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.1se))
                 }
                 fit_out <- as.data.frame(fit_out)
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
-                cat(paste0("Best genes for ", names(fit)[i]))
-                cat(fit_out)
+                cat(paste0("Best genes for ", names(fit)[i]), sep = "\n")
+                cat(fit_out, sep = "\n")
             }
             return(fit)
         } else {
-            cat(red("Training model with family = multinomial"))
+            cat(crayon::magenta("Training model with family = multinomial"), sep = "\n")
             fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
                 family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
                 parallel = nParallel, ...), error = function(e) {
@@ -156,7 +154,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                   return(NULL)
                 })
             })
-            cat("Extracting best gene features...")
+            cat("Extracting best gene features...", sep = "\n")
             for (i in 1:length(fit)) {
                 if (l.min) {
                   fit_out <- as.matrix(coef(fit, s = fit$lambda.min)[[i]])
@@ -166,8 +164,8 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 fit_out <- as.data.frame(fit_out)
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
-                cat(paste0("Best genes for ", levels(train_cell_type)[i]))
-                cat(fit_out)
+                cat(paste0("Best genes for ", levels(train_cell_type)[i]), sep = "\n")
+                cat(fit_out, sep = "\n")
             }
             return(fit)
         }
@@ -197,16 +195,16 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             all_genes <- rownames(train_data)
             train_dat <- train_data[which(all_genes %in% train_genes), ]
         }
-        cat(paste0("using ", dim(train_dat)[1], " genes for training model"))
+        cat(paste0("using ", dim(train_dat)[1], " genes for training model"), sep = "\n")
         
-        cat("Transposing matrix")
+        cat("Transposing matrix", sep = "\n")
         if (class(train_dat) == "matrix") {
             train_dat <- Matrix::Matrix(train_dat, sparse = TRUE)
         }
         train_dat <- t(train_dat)
         
         if (standardize == TRUE) {
-            cat("Standardizing training dataset")
+            cat("Standardizing training dataset", sep = "\n")
             train_dat <- standardizeSparse(train_dat)
         }
         
@@ -216,9 +214,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             labels <- levels(train_cell_type)
         }
         if (multinomial == FALSE) {
-            cat(red("Training model with family = binomial"))
+            cat(crayon::magenta("Training model with family = binomial"), sep = "\n")
             for (label in labels) {
-                cat(green(paste0("Training model for ", label)))
+                cat(crayon::green(paste0("Training model for ", label)), sep = "\n")
                 celltype = factor(train_cell_type == label)
                 fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, 
                   family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", 
@@ -233,24 +231,24 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                   })
                 })
             }
-            cat("Extracting best gene features...")
+            cat("Extracting best gene features...", sep = "\n")
             for (i in 1:length(fit)) {
                 if (l.min) {
-                  cat("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted")
+                  cat("Choosing the best model but with the caveat that may be too complex, may be slightly overfitted", sep = "\n")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.min))
                 } else {
-                  cat("The simplest model that has comparable error to the best model given the uncertainty")
+                  cat("The simplest model that has comparable error to the best model given the uncertainty", sep = "\n")
                   fit_out <- as.matrix(coef(fit[[i]], s = fit[[i]]$lambda.1se))
                 }
                 fit_out <- as.data.frame(fit_out)
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
-                cat(paste0("Best genes for ", names(fit)[i]))
-                cat(fit_out)
+                cat(paste0("Best genes for ", names(fit)[i]), sep = "\n")
+                cat(fit_out, sep = "\n")
             }
             return(fit)
         } else {
-            cat(red("Training model with family = multinomial"))
+            cat(crayon::magenta("Training model with family = multinomial"), sep = "\n")
             fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
                 family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
                 parallel = nParallel, ...), error = function(e) {
@@ -262,7 +260,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                   return(NULL)
                 })
             })
-            cat("Extracting best gene features...")
+            cat("Extracting best gene features...", sep = "\n")
             for (i in 1:length(fit)) {
                 if (l.min) {
                   fit_out <- as.matrix(coef(fit, s = fit$lambda.min)[[i]])
@@ -272,8 +270,8 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 fit_out <- as.data.frame(fit_out)
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
-                cat(paste0("Best genes for ", levels(train_cell_type)[i]))
-                cat(fit_out)
+                cat(paste0("Best genes for ", levels(train_cell_type)[i]), sep = "\n")
+                cat(fit_out, sep = "\n")
             }
             return(fit)
         }
