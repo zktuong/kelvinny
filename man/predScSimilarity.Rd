@@ -2,27 +2,26 @@
 % Please edit documentation in R/predScSimilarity.R
 \name{predScSimilarity}
 \alias{predScSimilarity}
-\title{Predicts scRNA-seq data from trained multinomial cv.glmnet model}
+\title{Predicts expression data for class probability/similarity with a trained binomial/multinomial glmnet logistic regression model}
 \usage{
-predScSimilarity(model, test, standardize = TRUE, lambda.1se = TRUE,
-  ...)
+predScSimilarity(model, test, standardize = TRUE, l.min = FALSE, ...)
 }
 \arguments{
 \item{model}{trained model.}
 
-\item{test}{seurat object, SummarizedExperiment object or expression matrix for prediction}
+\item{test}{Seurat object, SummarizedExperiment object or expression matrix for prediction}
 
 \item{standardize}{a logical value specifying whether or not to standardize the test matrix}
 
-\item{lambda.1se}{logical value. FALSE will use lambda.min for prediction}
+\item{l.min}{logical. FALSE will use lambda.1se for prediction}
 
-\item{...}{pass to predict. see ?predict.glmnet}
+\item{...}{pass to predict function see ?predict.glmnet}
 }
 \value{
 Generates prediction.
 }
 \description{
-Predicts scRNA-seq data from trained multinomial cv.glmnet model
+Predicts expression data for class probability/similarity with a trained binomial/multinomial glmnet logistic regression model
 }
 \examples{
 pred <- predScSimilarity(model, test.sce)

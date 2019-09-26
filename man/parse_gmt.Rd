@@ -11,7 +11,7 @@ parse_gmt(file, header = TRUE, sep = "\\t", ...)
 
 \item{header}{default TRUE}
 
-\item{sep}{default "\t"}
+\item{sep}{default to tab delimited}
 
 \item{...}{passes to read.csv}
 }

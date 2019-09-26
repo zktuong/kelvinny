@@ -1,9 +1,9 @@
 Package: kelvinny
-Title: Kelvinny does what a Kelvin does
-Version: 1.2
-Authors@R: person("Kelvin", "Tuong", email = "z.tuong@uq.edu.au", role = c("aut", "cre"))
-Description: Kelvin's wrapper functions for R plotting.
-Depends: R (>= 3.5.0)
+Title: Kelvinny The Incredible!
+Version: 2.0
+Authors@R: person("Kelvin", "Tuong", email = c("z.tuong@uq.edu.au", "zkt22@cam.ac.uk", "kt16@sanger.ac.uk"), role = c("aut", "cre"))
+Description: Kelvin's R functions for projects.
+Depends: R (>= 3.6.0)
 License: GPL-3
 Encoding: UTF-8
 Imports:
@@ -15,12 +15,14 @@ Imports:
 	ranger,
 	viridisLite,
 	devtools,
-	SummarizedExperiment
+	SummarizedExperiment,
+	crayon
 Suggests:
 	ggplot2,
 	covr,
 	dplyr,
-	Seurat
+	Seurat,
+	Matrix
 LazyData: true
 RoxygenNote: 6.1.1
 

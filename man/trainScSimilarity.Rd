@@ -2,16 +2,19 @@
 % Please edit documentation in R/trainScSimilarity.R
 \name{trainScSimilarity}
 \alias{trainScSimilarity}
-\title{Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model}
+\title{Trains scRNA-seq data via tunable logistic regression model}
 \usage{
-trainScSimilarity(train_data, train_cell_type, train_genes = NULL,
-  standardize = TRUE, nfolds = 10, alpha = 0.99,
+trainScSimilarity(train_data, train_cell_type, test_data,
+  train_genes = NULL, standardize = TRUE, nfolds = 10, a = 0.9,
+  l.min = FALSE, multinomial = TRUE,
   nParallel = parallel::detectCores(), ...)
 }
 \arguments{
-\item{train_data}{seurat object, SummarizedExperiment object or expression matrix for training}
+\item{train_data}{Seurat object, SummarizedExperiment object or expression matrix for training}
 
 \item{train_cell_type}{The cell types/clusters in the training data set}
+
+\item{test_data}{Seurat object, SummarizedExperiment object or expression matrix for testing later}
 
 \item{train_genes}{Genes to use for training. If not provided, it will try to pick from all genes in the training dataset as per default glmnet.}
 
@@ -19,18 +22,22 @@ trainScSimilarity(train_data, train_cell_type, train_genes = NULL,
 
 \item{nfolds}{integer specifying bin for cross validation. Use all samples if doing LOOCV.}
 
-\item{alpha}{regularization parameter}
+\item{a}{tunable regularization parameter. 0 = ridge (L2), 1 = LASSO (L1), in between = Elastic-net}
+
+\item{l.min}{logical. Choose between lambda.min or lambda.1se}
+
+\item{multinomial}{logical. Choose between family = 'binomial' or 'multinomial'.}
 
 \item{nParallel}{integer specifying number of cores for parallelization.}
 
-\item{...}{pass to glmnet}
+\item{...}{other functions pass to glmnet}
 }
 \value{
 Generates a trained model for predicting cell types for scRNAseq data
 }
 \description{
-Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model
+Trains scRNA-seq data via tunable logistic regression model
 }
 \examples{
-fit <- trainScSimilarity(data, cluster, genes)
+fit <- trainScSimilarity(trainData, clusters, testData)
 }
