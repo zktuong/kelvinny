@@ -6,7 +6,8 @@
 #' @param ... pass to rhdf5 associated functions
 #' @return Save large (dense) matrix to .h5 format
 #' @examples
-#' saveAsH5(matrixA, "./path/to/matrix.h5")
+#' mtx_to_h5(matrixA, "matrix.h5")
+#' mtx_to_h5totxt(matrixA, "matrix.h5")
 #' @import rhdf5
 #' @import crayon
 #' @import reticulate
@@ -14,9 +15,6 @@
 #'   
 
 mtx_to_h5 <- function(object, filename, datasetname = "counts", ...){
-	require(rhdf5)
-	require(crayon)
-
 	if(!grepl(".h5$", filename)){
 		filename <- paste0(filename, ".h5")
 	}
@@ -26,9 +24,8 @@ mtx_to_h5 <- function(object, filename, datasetname = "counts", ...){
 	rhdf5::h5write(object, filename, datasetname, ...)
 }
 
+#' @export
 mtx_to_h5totxt <- function(object, filename, datasetname = "counts",...){
-	require(rhdf5)
-	require(crayon)
 	if(!grepl(".h5$", filename)){
 		filename <- paste0(filename, ".h5")
 	}

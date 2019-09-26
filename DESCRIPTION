@@ -15,9 +15,10 @@ Imports:
 	ranger,
 	viridisLite,
 	devtools,
-	SummarizedExperiment,
-	crayon
+	SummarizedExperiment	
 Suggests:
+	crayon,
+	reticulate,
 	ggplot2,
 	covr,
 	dplyr,
