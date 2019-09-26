@@ -16,7 +16,7 @@ Imports:
 	viridisLite,
 	devtools,
 	SummarizedExperiment,
-	svMisc
+	crayon
 Suggests:
 	ggplot2,
 	covr,
