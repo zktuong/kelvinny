@@ -12,6 +12,7 @@
 #' @examples
 #' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
+#' @import crayon
 #' @import parallel
 #' @import SummarizedExperiment
 #' @import Matrix
@@ -34,20 +35,23 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
 
     if(verbose){
         prediction <- foreach(i = 1:nboots) %dopar% {
-            cat(paste0("Training bootstrap #", i))
+            cat(paste0("Training bootstrap #", i), sep = "\n")
             fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, ...)
-            cat(paste0("Predicting bootstrap #", i))
+            cat(paste0("Predicting bootstrap #", i), sep = "\n")
             pred <- predScSimilarity(model = fit_model, test = testingSet, ...)
-            cat(green(paste0("Finished bootstrap #", i)))
+            cat(crayon::green(paste0("Finished bootstrap #", i)), sep = "\n")
             return(pred)
         }
-    } else {
+    } else {        
         prediction <- foreach(i = 1:nboots) %dopar% {
-            cat(paste0("Training bootstrap #", i))
-            fit_model <- invisible(trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, ...))
-            cat(paste0("Predicting bootstrap #", i))
-            pred <- invisible(predScSimilarity(model = fit_model, test = testingSet, ...))
-            cat(green(paste0("Finished bootstrap #", i)))
+            cat(crayon::magenta(paste0("Training bootstrap #", i)), sep = "\n")
+            sink(tempfile())
+            fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, ...)
+            sink(); sink(tempfile())
+            cat(crayon::cyan(paste0("Predicting bootstrap #", i)), sep = "\n")
+            sink()
+            pred <- predScSimilarity(model = fit_model, test = testingSet, ...)
+            cat(crayon::green(paste0("Finished bootstrap #", i)), sep = "\n")
             return(pred)
             }
         }
@@ -55,13 +59,13 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
     if(length(prediction) > 1) {
         prediction_summary <- list()
         if(simplify) {
-            cat("Averaging predictions")
+            cat(crayon::cyan("Averaging predictions"), sep = "\n")
             prediction_summary[["prediction"]] <- Reduce("+", prediction) / length(prediction)
-            cat("Obtaining standard deviations")
+            cat(crayon::magenta("Obtaining standard deviations"), sep = "\n")
             prediction_summary[["SD"]] <- sdList(prediction)
             return(prediction_summary)
         } else {
-            cat("Returning all predictions")
+            cat(crayon::cyan("Returning all predictions"), sep = "\n")
             return(prediction)
         }
     } else {
