@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.com/zktuong/kelvinny.svg?branch=master)](https://travis-ci.com/zktuong/kelvinny)
 # kelvinny
 Kelvin's wrapper scripts for R plotting functions and other stuff.
+v2.0 - updated the functionality of the logistic regression functions, including a bootstrap wrapper.
+
 
 ## Installation instructions
 You can install the package via ```devtools::install_github()``` function in R
@@ -77,6 +79,13 @@ gg_color_hue(20)
 # [14] "#35A2FF" "#9590FF" "#C77CFF" "#E76BF3" "#FA62DB" "#FF62BC" "#FF6A98"
 ```
 
+### dirCreate/createDir
+same in function as {base} dir.create, but always recursive
+```R
+dirCreate("/path/to/path/to/file")
+createDir("/path/to/path/to/file/2")
+```
+
 ### pbcopy/pbpaste
 pbcopy lets you copy any object from R to paste outside as a dataframe/vector as you wish.
 ```R
@@ -139,12 +148,15 @@ A cleaner version of above. Uses glmnet algorithm to predict similarity of cells
 Can take expression matrix as well as Seurat or SummarizedExperiment objects.
 ```R
 ### SummarizedExperiment object
-model <- trainScSimilarity(train.sce, colData(train.sce)$CellType, nfolds = dim(train.sce)[2])
+model <- trainScSimilarity(train.sce, colData(train.sce)$CellType, test.sce, nfolds = dim(train.sce)[2])
 pred <- predScSimilarity(model, test.sce)
-### Seurat object
-model <- trainScSimilarity(train.seurat, seurat@ident, nfolds = dim(train.seurat@data)[2])
+### Seurat v2 object
+model <- trainScSimilarity(train.seurat, seurat@ident, test.sce, nfolds = dim(train.seurat@data)[2])
 pred <- predScSimilarity(model, test.seurat)
 
+# bootstrap
+# using Seurat V3 object as an example
+pred <- similarity_bootstrap(train.seurat, Idents(train.seurat), test.seurat, nboots = 50, simplify = TRUE, verbose = FALSE) # simplify will toggle whether to return the mean and SD of the prediction, or all as nested lists, and verbose will toggle hide/unhide of the messages
 ```
 
 ### codon
@@ -154,4 +166,10 @@ codon("ttt")
 # [1] "Phe"
 codon("ttt", "ttg")
 # [1] "Phe>Leu"
+```
+
+### parse_gmt
+reads a .gmx file and automatically convert to a table, like a .gmt file
+```R
+parse_gmt("file.gmt")
 ```
