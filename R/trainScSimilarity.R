@@ -1,4 +1,4 @@
-#' Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model
+#' Trains scRNA-seq data via tunable logistic regression model
 #' 
 #' @param train_data Seurat object, SummarizedExperiment object or expression matrix for training
 #' @param train_cell_type The cell types/clusters in the training data set
@@ -138,7 +138,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
                 cat(paste0("Best genes for ", names(fit)[i]), sep = "\n")
-                cat(fit_out, sep = "\n")
+                print(fit_out, sep = "\n")
             }
             return(fit)
         } else {
@@ -165,7 +165,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
                 cat(paste0("Best genes for ", levels(train_cell_type)[i]), sep = "\n")
-                cat(fit_out, sep = "\n")
+                print(fit_out, sep = "\n")
             }
             return(fit)
         }
@@ -244,7 +244,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
                 cat(paste0("Best genes for ", names(fit)[i]), sep = "\n")
-                cat(fit_out, sep = "\n")
+                print(fit_out, sep = "\n")
             }
             return(fit)
         } else {
@@ -271,7 +271,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 fit_out <- fit_out[fit_out[, 1] != 0, , drop = FALSE]
                 cat(sep = "\n")
                 cat(paste0("Best genes for ", levels(train_cell_type)[i]), sep = "\n")
-                cat(fit_out, sep = "\n")
+                print(fit_out, sep = "\n")
             }
             return(fit)
         }
