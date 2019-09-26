@@ -173,3 +173,47 @@ reads a .gmx file and automatically convert to a table, like a .gmt file
 ```R
 parse_gmt("file.gmt")
 ```
+
+### mtx_to_h5/mtx_to_h5totxt
+writes a matrix to .h5 format
+A complementary python module is also available to convert the .h5 file to txt
+```R
+mtx_to_h5(counts, "counts.h5")
+
+# or if you want to convert to h5 and txt in a single function
+# pip install kelvinnypy or conda install -c kt16 kelvinnypy
+# use 1.0.10 if your python version is 3.6
+mtx_to_h5totxt(counts, "counts.h5")
+
+# as a comparison
+mat <- matrix(rexp(2e8, rate=.1), ncol=20000, dimnames = list(paste0("gene", 1:10000), paste0("cell", 1:20000)))
+dim(mat)
+# [1] 10000 20000
+
+# write to .txt file
+start <- Sys.time()
+write.table(mat, "./mat.txt", quote = FALSE, sep = "\t", row.names = TRUE)
+end <- Sys.time()
+end - start
+
+# write to .txt.gz file
+start <- Sys.time()
+write.table(mat, gzfile("./mat.txt.gz"), quote = FALSE, sep = "\t", row.names = TRUE)
+end <- Sys.time()
+end - start
+
+# write to .h5 and convert to .txt 
+start <- Sys.time()
+mtx_to_h5totxt(mat, "mat.h5")
+end <- Sys.time()
+end - start
+
+# write to .h5 and convert to .txt and then gzip
+start <- Sys.time()
+mtx_to_h5totxt(mat, "mat.h5")
+system("gzip mat.txt")
+end <- Sys.time()
+end - start
+
+
+```
