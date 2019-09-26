@@ -85,7 +85,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
         train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
 
-        cat(paste0("Submitting ", length(genes.intersect), " intersecting genes to glmnet for selecting predictors"), sep = "\n")
+        cat(paste0("Submitting ", crayon::red(length(genes.intersect)), " intersecting genes to glmnet for selecting predictors"), sep = "\n")
 
         cat("Transposing matrix", sep = "\n")
         if (class(train_dat) == "matrix") {
@@ -106,9 +106,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         
         if (multinomial == FALSE) {
-            cat(paste0("Training model with family = ", crayon::magenta("binomial")), sep = "\n")
+            cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("binomial")), sep = "\n")
             for (label in labels) {
-                cat(crayon::green(paste0("Training model for ", label)), sep = "\n")
+                cat(crayon::green(paste0("Training model for ", crayon::red(label))), sep = "\n")
                 celltype = factor(train_cell_type == label)
                 
                 fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, 
@@ -142,7 +142,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             }
             return(fit)
         } else {
-            cat(paste0("Training model with family = ", crayon::magenta("multinomial")), sep = "\n")
+            cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("multinomial")), sep = "\n")
             fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
                 family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
                 parallel = nParallel, ...), error = function(e) {
@@ -214,9 +214,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             labels <- levels(train_cell_type)
         }
         if (multinomial == FALSE) {
-            cat(paste0("Training model with family = ", crayon::magenta("binomial")), sep = "\n")
+            cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("binomial")), sep = "\n")
             for (label in labels) {
-                cat(crayon::green(paste0("Training model for ", label)), sep = "\n")
+                cat(crayon::green(paste0("Training model for ", crayon::red(label))), sep = "\n")
                 celltype = factor(train_cell_type == label)
                 fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, 
                   family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", 
@@ -248,7 +248,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             }
             return(fit)
         } else {
-            cat(paste0("Training model with family = ", crayon::magenta("multinomial")), sep = "\n")
+            cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("multinomial")), sep = "\n")
             fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
                 family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
                 parallel = nParallel, ...), error = function(e) {
