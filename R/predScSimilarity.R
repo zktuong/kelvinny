@@ -39,11 +39,11 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
 	if (class(newx) == "matrix") {
 		newx <- Matrix::Matrix(newx, sparse = TRUE)
 	}
-	print("Transposing test matrix")
+	cat("Transposing test matrix")
 	newx <- t(newx)    
 
 	if (standardize == TRUE) {
-		print("Standardizing training dataset")
+		cat("Standardizing training dataset")
 		newx <- standardizeSparse(newx)
 	}
 
@@ -58,7 +58,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
 	if(class(model) == "list"){
     	if (l.min == FALSE) {
         	for(class in trained.class){
-        	print(paste0("Predicting probabilities for ", class))
+        	cat(red(paste0("Predicting probabilities for ", class)))
         	model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
         	model.genes[[class]] <- model.genes[[class]][!is.na(model.genes[[class]])]
         	preds[[class]] <- predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.1se, newoffset = rep(0, nrow(newx)), ...)
@@ -66,7 +66,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
         	} 
     	} else {
         	for(class in trained.class){
-        	print(paste0("Predicting probabilities for ", class))
+        	cat(green(paste0("Predicting probabilities for ", class)))
         	model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
 			model.genes[[class]] <- model.genes[[class]][!is.na(model.genes[[class]])]
         	preds[[class]] = predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.min, newoffset = rep(0, nrow(newx)), ...)
@@ -74,7 +74,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
         	}
         }
     } else {
-    	print("Predicting probabilities")
+    	cat(green("Predicting probabilities"))
     	if (l.min == FALSE) {    		
     		model.genes <- match(rownames(model$glmnet.fit$beta[[1]]), colnames(newx))
     		model.genes <- model.genes[!is.na(model.genes)]
