@@ -2,7 +2,7 @@
 % Please edit documentation in R/trainScSimilarity.R
 \name{trainScSimilarity}
 \alias{trainScSimilarity}
-\title{Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model}
+\title{Trains scRNA-seq data via tunable logistic regression model}
 \usage{
 trainScSimilarity(train_data, train_cell_type, test_data,
   train_genes = NULL, standardize = TRUE, nfolds = 10, a = 0.9,
@@ -36,7 +36,7 @@ trainScSimilarity(train_data, train_cell_type, test_data,
 Generates a trained model for predicting cell types for scRNAseq data
 }
 \description{
-Trains scRNA-seq data to be used as binomial glmnet::cv.glmnet model
+Trains scRNA-seq data via tunable logistic regression model
 }
 \examples{
 fit <- trainScSimilarity(trainData, clusters, testData)

@@ -47,10 +47,11 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
             cat(crayon::magenta(paste0("Training bootstrap #", i)), sep = "\n")
             sink(tempfile())
             fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, ...)
-            sink(); sink(tempfile())
-            cat(crayon::cyan(paste0("Predicting bootstrap #", i)), sep = "\n")
             sink()
+            cat(crayon::cyan(paste0("Predicting bootstrap #", i)), sep = "\n")
+            sink(tempfile())
             pred <- predScSimilarity(model = fit_model, test = testingSet, ...)
+            sink()
             cat(crayon::green(paste0("Finished bootstrap #", i)), sep = "\n")
             return(pred)
             }
