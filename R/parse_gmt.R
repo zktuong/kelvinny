@@ -2,7 +2,7 @@
 #' 
 #' @param file file
 #' @param header default TRUE
-#' @param sep default "\t"
+#' @param sep default to tab delimited
 #' @param ... passes to read.csv
 #' @return reads a .gmt file like a .gmx file
 #' @export
