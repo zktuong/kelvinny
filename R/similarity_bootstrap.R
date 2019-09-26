@@ -12,7 +12,6 @@
 #' @examples
 #' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
-#' @import crayon
 #' @import parallel
 #' @import SummarizedExperiment
 #' @import doMC
