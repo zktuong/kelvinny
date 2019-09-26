@@ -9,6 +9,7 @@
 #' @examples
 #' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
+#' @import crayon
 #' @import SummarizedExperiment
 #' @export
 #'      
@@ -39,11 +40,11 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
 	if (class(newx) == "matrix") {
 		newx <- Matrix::Matrix(newx, sparse = TRUE)
 	}
-	cat("Transposing test matrix")
+	cat("Transposing test matrix", sep = "\n")
 	newx <- t(newx)    
 
 	if (standardize == TRUE) {
-		cat("Standardizing training dataset")
+		cat("Standardizing training dataset", sep = "\n")
 		newx <- standardizeSparse(newx)
 	}
 
@@ -58,7 +59,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
 	if(class(model) == "list"){
     	if (l.min == FALSE) {
         	for(class in trained.class){
-        	cat(red(paste0("Predicting probabilities for ", class)))
+        	cat(crayon::green(paste0("Predicting probabilities for ", class)), sep = "\n")
         	model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
         	model.genes[[class]] <- model.genes[[class]][!is.na(model.genes[[class]])]
         	preds[[class]] <- predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.1se, newoffset = rep(0, nrow(newx)), ...)
@@ -66,7 +67,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
         	} 
     	} else {
         	for(class in trained.class){
-        	cat(green(paste0("Predicting probabilities for ", class)))
+        	cat(crayon::green(paste0("Predicting probabilities for ", class)), sep = "\n")
         	model.genes[[class]] <- match(rownames(model[[class]]$glmnet.fit$beta), colnames(newx))
 			model.genes[[class]] <- model.genes[[class]][!is.na(model.genes[[class]])]
         	preds[[class]] = predict(model[[class]], newx = newx[,model.genes[[class]]], s = model[[class]]$lambda.min, newoffset = rep(0, nrow(newx)), ...)
@@ -74,7 +75,7 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
         	}
         }
     } else {
-    	cat(green("Predicting probabilities"))
+    	cat(crayon::green("Predicting probabilities"), sep = "\n")
     	if (l.min == FALSE) {    		
     		model.genes <- match(rownames(model$glmnet.fit$beta[[1]]), colnames(newx))
     		model.genes <- model.genes[!is.na(model.genes)]
@@ -90,6 +91,3 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
     colnames(preds) <- gsub("[.]1$", "", colnames(preds))
     return(preds)
 }
-
-
-    
