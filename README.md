@@ -184,57 +184,55 @@ mtx_to_h5(counts, "counts.h5")
 # pip install kelvinnypy or conda install -c kt16 kelvinnypy
 # use 1.0.10 if your python version is 3.6
 mtx_to_h5totxt(counts, "counts.h5")
-
-# as a comparison
-mat <- matrix(rexp(2e8, rate=.1), ncol=20000, dimnames = list(paste0("gene", 1:10000), paste0("cell", 1:20000)))
-dim(mat)
+```
+### As a comparison
+```R
+norm_counts <- matrix(rexp(2e8, rate=.1), ncol=20000, dimnames = list(paste0("gene", 1:10000), paste0("cell", 1:20000)))
+dim(norm_counts)
 # [1] 10000 20000
-
-# write to .txt file
+```
+### write to .txt file
+```R
 start <- Sys.time()
-write.table(mat, "./mat.txt", quote = FALSE, sep = "\t", row.names = TRUE)
+write.table(norm_counts, "./norm_counts.txt", quote = FALSE, sep = "\t", row.names = TRUE)
 end <- Sys.time()
 end - start
-# Time difference of 3.507676 mins
-
-# write to .txt.gz file
+# Time difference of 4.033704 mins
+```
+### write to .txt.gz file
+```R
 start <- Sys.time()
-write.table(mat, gzfile("./mat.txt.gz"), quote = FALSE, sep = "\t", row.names = TRUE)
+write.table(norm_counts, gzfile("./norm_counts.txt.gz"), quote = FALSE, sep = "\t", row.names = TRUE)
 end <- Sys.time()
 end - start
-# Time difference of 8.772404 mins
-
+# Time difference of 9.407493 mins
+```
+### write to .h5 file
+```R
 # library(kelvinny)
 # write to .h5 
 start <- Sys.time()
-mtx_to_h5(mat, "mat.h5")
+mtx_to_h5(norm_counts, "norm_counts.h5")
 end <- Sys.time()
 end - start
-# Time difference of 2.87508 mins
-
-# write to .h5 and convert to .txt 
-start <- Sys.time()
-mtx_to_h5totxt(mat, "mat.h5")
-end <- Sys.time()
-end - start
-# Time difference of 5.42718 mins
-
-# write to .h5 and convert to .txt and then gzip
-start <- Sys.time()
-mtx_to_h5totxt(mat, "mat.h5")
-system("gzip mat.txt")
-end <- Sys.time()
-end - start
+# Time difference of 2.933439 mins
 ```
-ok, maybe no improvements?
-or try this:
+this file is compressed too. Can be used for transferring rather than transfer the .txt file, or gzipped .txt.gz file. 
+### convert .h5 file
+```bash
+time h5totxt norm_counts.h5
+# real    2m46.901s
+# user    2m40.488s
+# sys     0m6.380s
+```
+
+### write to .h5 and convert to .txt 
 ```R
 start <- Sys.time()
-mtx_to_h5(mat, "mat.h5")
+mtx_to_h5totxt(norm_counts, "norm_counts.h5")
 end <- Sys.time()
 end - start
+Time difference of 5.651026 mins
 ```
-```bash
-time h5totxt mat.h5
-time gzip mat.txt
-```
+
+I think ... you save a bit of time from the gzipping, transfer, and unzipping of the large .txt if you need to move them. But you could always move the .RDS to begin with... ¯\_(ツ)_/¯
