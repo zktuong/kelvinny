@@ -179,10 +179,18 @@ writes a matrix to .h5 format
 A complementary python module is also available to convert the .h5 file to txt
 ```R
 mtx_to_h5(counts, "counts.h5")
+```
+and then in bash
+```bash
+pip install kelvinnypy 
+# or 
+conda install -c kt16 kelvinnypy
 
-# or if you want to convert to h5 and txt in a single function
-# pip install kelvinnypy or conda install -c kt16 kelvinnypy
-# use 1.0.10 if your python version is 3.6
+# after installation
+h5totxt counts.h5
+```
+or if you want to convert to .h5 and .txt in a single function in R
+```R
 mtx_to_h5totxt(counts, "counts.h5")
 ```
 ### As a comparison
