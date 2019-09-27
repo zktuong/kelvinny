@@ -197,7 +197,7 @@ start <- Sys.time()
 write.table(norm_counts, "./norm_counts.txt", quote = FALSE, sep = "\t", row.names = TRUE)
 end <- Sys.time()
 end - start
-# Time difference of 4.033704 mins
+Time difference of 4.033704 mins
 ```
 ### write to .txt.gz file
 ```R
@@ -205,7 +205,7 @@ start <- Sys.time()
 write.table(norm_counts, gzfile("./norm_counts.txt.gz"), quote = FALSE, sep = "\t", row.names = TRUE)
 end <- Sys.time()
 end - start
-# Time difference of 9.407493 mins
+Time difference of 9.407493 mins
 ```
 ### write to .h5 file
 ```R
@@ -215,15 +215,15 @@ start <- Sys.time()
 mtx_to_h5(norm_counts, "norm_counts.h5")
 end <- Sys.time()
 end - start
-# Time difference of 2.933439 mins
+Time difference of 2.933439 mins
 ```
 this file is compressed too. Can be used for transferring rather than transfer the .txt file, or gzipped .txt.gz file. 
 ### convert .h5 file
 ```bash
 time h5totxt norm_counts.h5
-# real    2m46.901s
-# user    2m40.488s
-# sys     0m6.380s
+real    2m46.901s
+user    2m40.488s
+sys     0m6.380s
 ```
 
 ### write to .h5 and convert to .txt 
