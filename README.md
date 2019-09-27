@@ -210,21 +210,31 @@ start <- Sys.time()
 mtx_to_h5(mat, "mat.h5")
 end <- Sys.time()
 end - start
-# Time difference of 2.736347 mins
+# Time difference of 2.87508 mins
 
 # write to .h5 and convert to .txt 
 start <- Sys.time()
 mtx_to_h5totxt(mat, "mat.h5")
 end <- Sys.time()
 end - start
+# Time difference of 5.42718 mins
 
 # write to .h5 and convert to .txt and then gzip
 start <- Sys.time()
 mtx_to_h5totxt(mat, "mat.h5")
-system("gzip mat.h5")
+system("gzip mat.txt")
 end <- Sys.time()
 end - start
-
-
-## maybe only slight improvement =x
+```
+ok, maybe no improvements?
+or try this:
+```R
+start <- Sys.time()
+mtx_to_h5(mat, "mat.h5")
+end <- Sys.time()
+end - start
+```
+```bash
+time h5totxt mat.h5
+time gzip mat.txt
 ```

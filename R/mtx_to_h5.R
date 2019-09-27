@@ -37,7 +37,7 @@ mtx_to_h5totxt <- function(object, filename, datasetname = "counts",...){
 	if(!test) {
 		stop("python can't seem to find the module in this session of R")
 	} else {
-	kp <- reticulate::import("kelvinnypy")
-	kp$h5totxt(filename, datasetname)
+		kp <- reticulate::import("kelvinnypy")
+		kp$h5totxt(filename)
 	}
 }
