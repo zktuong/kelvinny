@@ -27,7 +27,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
     fit <- list()
     
     standardizeSparse <- function(A) {
-        A@x <- A@x/rep.int(colSums(A), diff(A@p))
+        A@x <- A@x/rep.int(Matrix::colSums(A), diff(A@p))
         return(A)
     }
     
@@ -73,7 +73,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         cat(paste0("No pre-defined genes provided. Filtering ", crayon::red(dim(train_dat)[1]), " genes for training"), sep = "\n")
         
-        Zero_col <- which(colSums(train_dat) == 0)
+        Zero_col <- which(Matrix::colSums(train_dat) == 0)
         duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
         if (length(c(Zero_col, duplicated_col)) != 0) {
             cat(paste0("Removing ", crayon::red(length(c(Zero_col, duplicated_col))), " genes with no variance"), sep = "\n")
