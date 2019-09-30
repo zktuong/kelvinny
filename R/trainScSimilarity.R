@@ -15,6 +15,7 @@
 #' @examples
 #' fit <- trainScSimilarity(trainData, clusters, testData)
 #' @import glmnet
+#' @import Matrix
 #' @import doMC
 #' @import SummarizedExperiment
 #' @export
