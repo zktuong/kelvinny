@@ -12,6 +12,7 @@
 #' @examples
 #' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
+#' @import Matrix
 #' @import parallel
 #' @import SummarizedExperiment
 #' @import doMC
@@ -27,6 +28,7 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
     sdf <- apply(ar, c(1, 2), sd)
     return(sdf)}
 
+    require(Matrix)
     require(foreach)
     require(doMC)
     doMC::registerDoMC(cores = nCores)

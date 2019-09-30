@@ -15,7 +15,8 @@ Imports:
 	ranger,
 	viridisLite,
 	devtools,
-	SummarizedExperiment	
+	SummarizedExperiment,
+	Matrix
 Suggests:
 	crayon,
 	reticulate,

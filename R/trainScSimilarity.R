@@ -27,6 +27,8 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
     
     fit <- list()
     
+    require(Matrix)
+
     standardizeSparse <- function(A) {
         A@x <- A@x/rep.int(Matrix::colSums(A), diff(A@p))
         return(A)
