@@ -112,16 +112,11 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 cat(crayon::green(paste0("Training model for ", crayon::red(label))), sep = "\n")
                 celltype = factor(train_cell_type == label)
                 
-                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, 
-                  offset = getPopulationOffset(celltype), family = "binomial", 
-                  alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, 
-                  ...), error = function(e) {
-                  tryCatch(glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), 
-                    family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", 
-                    parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), 
-                    ...), error = function(e) {
-                    warning(paste0("Could not train model for variable ", 
-                      label))
+                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e) 
+                {
+                  tryCatch(glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                  {
+                    warning(paste0("Could not train model for variable ", label))
                     return(NULL)
                   })
                 })
@@ -144,19 +139,16 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             return(fit)
         } else {
             cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("multinomial")), sep = "\n")
-            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
-                family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
-                parallel = nParallel, ...), error = function(e) {
-                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
-                  family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
-                  parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), 
-                  ...), error = function(e) {
-                  warning(paste0("Could not train model with family = multinomial. Try with multinomial = FALSE"))
-                  return(NULL)
+            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e)
+            {
+                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                {
+                    warning(paste0("Could not train model with family = multinomial. Try with multinomial = FALSE"))
+                    return(NULL)
                 })
             })
             cat("Extracting best gene features", sep = "\n")
-            for (i in 1:length(fit)) {
+            for (i in 1:length(fit$glmnet.fit$beta)) {
                 if (l.min) {
                   fit_out <- as.matrix(coef(fit, s = fit$lambda.min)[[i]])
                 } else {
@@ -219,17 +211,13 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             for (label in labels) {
                 cat(crayon::green(paste0("Training model for ", crayon::red(label))), sep = "\n")
                 celltype = factor(train_cell_type == label)
-                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, 
-                  family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", 
-                  parallel = nParallel, ...), error = function(e) {
-                  tryCatch(glmnet::cv.glmnet(train_dat, celltype, family = "binomial", 
-                    alpha = a, nfolds = nfolds, type.measure = "class", 
-                    parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), 
-                    ...), error = function(e) {
-                    warning(paste0("Could not train model for variable ", 
-                      label))
-                    return(NULL)
-                  })
+                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e) 
+                {
+                    tryCatch(glmnet::cv.glmnet(train_dat, celltype, family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                    {
+                        warning(paste0("Could not train model for variable ", label))
+                        return(NULL)
+                    })
                 })
             }
             cat("Extracting best gene features", sep = "\n")
@@ -250,19 +238,16 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             return(fit)
         } else {
             cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("multinomial")), sep = "\n")
-            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
-                family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
-                parallel = nParallel, ...), error = function(e) {
-                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, 
-                  family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", 
-                  parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), 
-                  ...), error = function(e) {
-                  warning(paste0("Could not train model with family = multinomial. Try with multinomial = FALSE"))
-                  return(NULL)
-                })
+            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e) 
+            {
+                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                    {
+                        warning(paste0("Could not train model with family = multinomial. Try with multinomial = FALSE"))
+                        return(NULL)
+                    })
             })
             cat("Extracting best gene features", sep = "\n")
-            for (i in 1:length(fit)) {
+            for (i in 1:length(fit$glmnet.fit$beta)) {
                 if (l.min) {
                   fit_out <- as.matrix(coef(fit, s = fit$lambda.min)[[i]])
                 } else {
