@@ -46,6 +46,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
     
     if (nParallel > 1) {
         doMC::registerDoMC(cores = nParallel)
+        PARALLEL = TRUE
+    } else {
+        PARALLEL = FALSE
     }
     
     if (is.null(train_genes)) {
@@ -112,9 +115,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 cat(crayon::green(paste0("Training model for ", crayon::red(label))), sep = "\n")
                 celltype = factor(train_cell_type == label)
                 
-                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e) 
+                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, ...), error = function(e) 
                 {
-                  tryCatch(glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                  tryCatch(glmnet::cv.glmnet(train_dat, celltype, offset = getPopulationOffset(celltype), family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
                   {
                     warning(paste0("Could not train model for variable ", label))
                     return(NULL)
@@ -139,9 +142,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             return(fit)
         } else {
             cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("multinomial")), sep = "\n")
-            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e)
+            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, ...), error = function(e)
             {
-                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
                 {
                     warning(paste0("Could not train model with family = multinomial. Try with multinomial = FALSE"))
                     return(NULL)
@@ -211,9 +214,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             for (label in labels) {
                 cat(crayon::green(paste0("Training model for ", crayon::red(label))), sep = "\n")
                 celltype = factor(train_cell_type == label)
-                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e) 
+                fit[[label]] = tryCatch(glmnet::cv.glmnet(train_dat, celltype, family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, ...), error = function(e) 
                 {
-                    tryCatch(glmnet::cv.glmnet(train_dat, celltype, family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                    tryCatch(glmnet::cv.glmnet(train_dat, celltype, family = "binomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
                     {
                         warning(paste0("Could not train model for variable ", label))
                         return(NULL)
@@ -238,9 +241,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             return(fit)
         } else {
             cat(paste0(crayon::magenta("Training model with family = "), crayon::yellow("multinomial")), sep = "\n")
-            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, ...), error = function(e) 
+            fit <- tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, ...), error = function(e) 
             {
-                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = nParallel, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
+                tryCatch(glmnet::cv.glmnet(train_dat, train_cell_type, family = "multinomial", alpha = a, nfolds = nfolds, type.measure = "class", parallel = PARALLEL, lambda = exp(seq(-10, -3, length.out = 100)), ...), error = function(e2) 
                     {
                         warning(paste0("Could not train model with family = multinomial. Try with multinomial = FALSE"))
                         return(NULL)

@@ -36,7 +36,7 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
     if(verbose){
         prediction <- foreach(i = 1:nboots) %dopar% {
             cat(paste0("Training bootstrap #", i), sep = "\n")
-            fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, ...)
+            fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, nParallel = nCores, ...)
             cat(paste0("Predicting bootstrap #", i), sep = "\n")
             pred <- predScSimilarity(model = fit_model, test = testingSet, ...)
             cat(crayon::green(paste0("Finished bootstrap #", i)), sep = "\n")
@@ -46,7 +46,7 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
         prediction <- foreach(i = 1:nboots) %dopar% {
             cat(crayon::magenta(paste0("Training bootstrap #", i)), sep = "\n")
             sink(tempfile())
-            fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, ...)
+            fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet,  nParallel = nCores, ...)
             sink()
             cat(crayon::cyan(paste0("Predicting bootstrap #", i)), sep = "\n")
             sink(tempfile())
