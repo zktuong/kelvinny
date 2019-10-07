@@ -5,8 +5,8 @@
 \title{Bootstraps training and prediction of scRNA-seq data using binomial/multinomial logistic regression with tunable penalties}
 \usage{
 similarity_bootstrap(trainingSet, trainingCellType, testingSet,
-  nboots = 50, simplify = FALSE, nCores = parallel::detectCores(),
-  verbose = FALSE, ...)
+  nboots = 50, simplify = FALSE, bs_nCores = 10,
+  train_nCores = parallel::detectCores(), verbose = FALSE, ...)
 }
 \arguments{
 \item{trainingSet}{Seurat object, SummarizedExperiment object or expression matrix for training}
@@ -19,7 +19,9 @@ similarity_bootstrap(trainingSet, trainingCellType, testingSet,
 
 \item{simplify}{logical. collapse the predictions to a single data frame}
 
-\item{nCores}{integer specifying number of cores for parallelization.}
+\item{bs_nCores}{integer specifying number of cores for parallelization (for bootstrap).}
+
+\item{train_nCores}{integer specifying number of cores for parallelization (for glmnet).}
 
 \item{verbose}{logical. if TRUE, print the training/prediction steps. Otherwise, minimal messages will be returned on the screen}
 
