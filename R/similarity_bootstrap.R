@@ -32,6 +32,7 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
     require(Matrix)
     require(foreach)
     require(doMC)
+    require(glmnet)
     doMC::registerDoMC(cores = bs_nCores)
 
     if(verbose){
