@@ -5,6 +5,7 @@
 #' @param testingSet Seurat object, SummarizedExperiment object or expression matrix for testing
 #' @param nboots integet specifying number of bootstrap runs to run
 #' @param simplify logical. collapse the predictions to a single data frame
+#' @param percent_probability logical. return as percentage or logit
 #' @param bs_nCores integer specifying number of cores for parallelization (for bootstrap).
 #' @param train_nCores integer specifying number of cores for parallelization (for glmnet).
 #' @param verbose logical. if TRUE, print the training/prediction steps. Otherwise, minimal messages will be returned on the screen
@@ -20,7 +21,7 @@
 #' @export
 #' 
 
-similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboots = 50, simplify = FALSE, bs_nCores = 10, train_nCores = parallel::detectCores(), verbose = FALSE, ...){
+similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboots = 50, simplify = FALSE, percent_probability = TRUE, bs_nCores = 10, train_nCores = parallel::detectCores(), verbose = FALSE, ...){
 
     sdList <- function(pred.list) {
     n <- length(pred.list);
@@ -28,6 +29,12 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
     ar <- array(unlist(pred.list), c(rc, n), list(rownames(pred.list[[1]]), colnames(pred.list[[1]])));
     sdf <- apply(ar, c(1, 2), sd)
     return(sdf)}
+
+    if(percent_probability) {
+        output. = "response"
+    } else {
+        output. = "link"
+    }
 
     require(Matrix)
     require(foreach)
@@ -40,7 +47,7 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
             cat(paste0("Training bootstrap #", i), sep = "\n")
             fit_model <- trainScSimilarity(train_data = trainingSet, train_cell_type = trainingCellType, test_data = testingSet, nParallel = train_nCores, ...)
             cat(paste0("Predicting bootstrap #", i), sep = "\n")
-            pred <- predScSimilarity(model = fit_model, test = testingSet, ...)
+            pred <- predScSimilarity(model = fit_model, test = testingSet, type = output., ...)
             cat(crayon::green(paste0("Finished bootstrap #", i)), sep = "\n")
             return(pred)
         }
@@ -52,7 +59,7 @@ similarity_bootstrap <- function(trainingSet, trainingCellType, testingSet, nboo
             sink()
             cat(crayon::cyan(paste0("Predicting bootstrap #", i)), sep = "\n")
             sink(tempfile())
-            pred <- predScSimilarity(model = fit_model, test = testingSet, ...)
+            pred <- predScSimilarity(model = fit_model, test = testingSet, type = output., ...)
             sink()
             cat(crayon::green(paste0("Finished bootstrap #", i)), sep = "\n")
             return(pred)
