@@ -193,6 +193,19 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         cat(paste0("provided ", dim(train_dat)[1], " genes for training model"), sep = "\n")
 
+        if (class(test_data) == "SummarizedExperiment") {
+            test_dat <- SummarizedExperiment::assay(test_data)
+        } else if (class(test_data) == "Seurat") {
+            test_dat <- tryCatch(test_data@data, error = function(e) {
+                tryCatch(GetAssayData(object = test_data), error = function(e) {
+                  warning(paste0("are you sure this is a seurat v3 object?"))
+                  return(NULL)
+                })
+            })
+        } else {
+            test_dat <- test_data
+        }
+        
         genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
         train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
         cat(paste0("trimed to ", dim(train_dat)[1], " intersecting genes for training model"), sep = "\n")
