@@ -165,7 +165,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             }
             return(fit)
         }
-    } else {
+    } else {        
         if (class(train_data) == "SummarizedExperiment") {
             all_genes <- elementMetadata(train_data)[, 1]
             train_dat <- SummarizedExperiment::assay(train_data[which(all_genes %in% 
@@ -191,7 +191,11 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             all_genes <- rownames(train_data)
             train_dat <- train_data[which(all_genes %in% train_genes), ]
         }
-        cat(paste0("using ", dim(train_dat)[1], " genes for training model"), sep = "\n")
+        cat(paste0("provided ", dim(train_dat)[1], " genes for training model"), sep = "\n")
+
+        genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
+        train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
+        cat(paste0("trimed to ", dim(train_dat)[1], " intersecting genes for training model"), sep = "\n")
         
         cat("Transposing matrix", sep = "\n")
         if (class(train_dat) == "matrix") {
