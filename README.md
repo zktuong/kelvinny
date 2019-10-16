@@ -15,7 +15,7 @@ devtools::install_github('zktuong/kelvinny', dependencies = TRUE)
 # one function requires SummarizedExperiment from bioconductor
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("SummarizedExperiment", version = "3.8")
+BiocManager::install("SummarizedExperiment")
 ```
 ## Usage instructions
 ```R
