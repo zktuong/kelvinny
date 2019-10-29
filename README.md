@@ -169,12 +169,12 @@ codon("ttt", "ttg")
 ```
 
 ### parse_gmt
-reads a .gmx file and automatically convert to a table, like a .gmt file
+reads a .gmt file and automatically convert to a table, like a .gmx file
 ```R
 parse_gmt("file.gmt")
 ```
 
-### mtx_to_h5/mtx_to_h5totxt
+### mtx_to_h5/mtx_to_h5totxt .... not working
 writes a matrix to .h5 format
 A complementary python module is also available to convert the .h5 file to txt
 ```R
