@@ -4,10 +4,18 @@
 \alias{similarity_bootstrap}
 \title{Bootstraps training and prediction of scRNA-seq data using binomial/multinomial logistic regression with tunable penalties}
 \usage{
-similarity_bootstrap(trainingSet, trainingCellType, testingSet,
-  nboots = 50, simplify = FALSE, percent_probability = TRUE,
-  bs_nCores = 10, train_nCores = parallel::detectCores(),
-  verbose = FALSE, ...)
+similarity_bootstrap(
+  trainingSet,
+  trainingCellType,
+  testingSet,
+  nboots = 50,
+  simplify = FALSE,
+  percent_probability = TRUE,
+  bs_nCores = 10,
+  train_nCores = parallel::detectCores(),
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{trainingSet}{Seurat object, SummarizedExperiment object or expression matrix for training}

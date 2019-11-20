@@ -4,11 +4,26 @@
 \alias{plotHeat}
 \title{Plotting a heatmap using pheatmap}
 \usage{
-plotHeat(d, color = "BluWhRd", scale = "row", n = 50, alpha = 1,
-  begin = 0, end = 1, option = "D", direction = 1,
-  show_colnames = TRUE, show_rownames = TRUE, cluster_rows = TRUE,
-  cluster_cols = TRUE, drop_levels = TRUE, fontsize = 9,
-  legend = TRUE, border_color = NA, ...)
+plotHeat(
+  d,
+  color = "BluWhRd",
+  scale = "row",
+  n = 50,
+  alpha = 1,
+  begin = 0,
+  end = 1,
+  option = "D",
+  direction = 1,
+  show_colnames = TRUE,
+  show_rownames = TRUE,
+  cluster_rows = TRUE,
+  cluster_cols = TRUE,
+  drop_levels = TRUE,
+  fontsize = 9,
+  legend = TRUE,
+  border_color = NA,
+  ...
+)
 }
 \arguments{
 \item{color}{Default has "BluWhRd", "RdWhBlu", "viridis" or a string of the colours you want. e.g. c("blue","yellow","orange").}

@@ -2,7 +2,7 @@
 #' 
 #' @param train_data Seurat object, SummarizedExperiment object or expression matrix for training
 #' @param train_cell_type The cell types/clusters in the training data set
-#' @param test_data Seurat object, SummarizedExperiment object or expression matrix for testing later
+#' @param test_data Seurat object, SummarizedExperiment/SingleCellExperiment object or expression matrix for testing later
 #' @param train_genes Genes to use for training. If not provided, it will try to pick from all genes in the training dataset as per default glmnet.
 #' @param standardize a logical value specifying whether or not to standardize the train matrix
 #' @param nfolds integer specifying bin for cross validation. Use all samples if doing LOOCV.
@@ -18,6 +18,7 @@
 #' @import Matrix
 #' @import doMC
 #' @import SummarizedExperiment
+#' @import SingleCellExperiment
 #' @export
 #'      
             
@@ -52,8 +53,10 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
     }
     
     if (is.null(train_genes)) {
-        if (class(train_data) == "SummarizedExperiment") {
-            train_dat <- SummarizedExperiment::assay(train_data)
+        if (class(train_data) %in% c("SingleCellExperiment", "SummarizedExperiment")) {
+            require(SummarizedExperiment)
+            require(SingleCellExperiment)
+            train_dat <- assay(train_data)
         } else if (class(train_data) == "Seurat") {
             train_dat <- tryCatch(train_data@data, error = function(e) {
                 tryCatch(GetAssayData(object = train_data), error = function(e) {
@@ -65,8 +68,10 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             train_dat <- train_data
         }
 
-        if (class(test_data) == "SummarizedExperiment") {
-            test_dat <- SummarizedExperiment::assay(test_data)
+        if (class(test_data) %in% c("SingleCellExperiment", "SummarizedExperiment")) {
+            require(SummarizedExperiment)
+            require(SingleCellExperiment)
+            test_dat <- assay(test_data)
         } else if (class(test_data) == "Seurat") {
             test_dat <- tryCatch(test_data@data, error = function(e) {
                 tryCatch(GetAssayData(object = test_data), error = function(e) {
@@ -166,9 +171,11 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
             return(fit)
         }
     } else {        
-        if (class(train_data) == "SummarizedExperiment") {
+        if (class(train_data) %in% c("SingleCellExperiment", "SummarizedExperiment")) {
+            require(SummarizedExperiment)
+            require(SingleCellExperiment)
             all_genes <- elementMetadata(train_data)[, 1]
-            train_dat <- SummarizedExperiment::assay(train_data[which(all_genes %in% 
+            train_dat <- assay(train_data[which(all_genes %in% 
                 train_genes)])
         } else if (class(train_data) == "Seurat") {
             all_genes <- tryCatch(all_genes <- rownames(train_data@data), 
@@ -193,8 +200,10 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         cat(paste0("provided ", dim(train_dat)[1], " genes for training model"), sep = "\n")
 
-        if (class(test_data) == "SummarizedExperiment") {
-            test_dat <- SummarizedExperiment::assay(test_data)
+        if (class(test_data) %in% c("SingleCellExperiment", "SummarizedExperiment")) {
+            require(SummarizedExperiment)
+            require(SingleCellExperiment)            
+            test_dat <- assay(test_data)
         } else if (class(test_data) == "Seurat") {
             test_dat <- tryCatch(test_data@data, error = function(e) {
                 tryCatch(GetAssayData(object = test_data), error = function(e) {

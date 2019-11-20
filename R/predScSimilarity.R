@@ -10,6 +10,7 @@
 #' pred <- predScSimilarity(model, test.sce)
 #' @import glmnet
 #' @import SummarizedExperiment
+#' @import SingleCellExperiment
 #' @export
 #'      
             
@@ -23,8 +24,10 @@ predScSimilarity <- function(model, test, standardize = TRUE, l.min = FALSE, ...
         return(A)
     }
 
-    if(class(test) == "SummarizedExperiment"){
-        newx <- SummarizedExperiment::assay(test)
+    if(class(test) %in% c("SingleCellExperiment", "SummarizedExperiment")) {
+        require(SummarizedExperiment)
+        require(SingleCellExperiment)
+        newx <- assay(test)
     } else if (class(test) == "Seurat"){
         newx <- tryCatch(test@data, error = function(e) {
             tryCatch(GetAssayData(object = test), error = function(e) {

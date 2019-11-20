@@ -4,9 +4,17 @@
 \alias{train_model_glmnet}
 \title{Training a glmnet model for binomial prediction.}
 \usage{
-train_model_glmnet(data, variable_colname, alpha = 1,
-  type.measure = "mse", type = "response", standardize = FALSE,
-  cutOff = 0.5, nfolds = 10, ...)
+train_model_glmnet(
+  data,
+  variable_colname,
+  alpha = 1,
+  type.measure = "mse",
+  type = "response",
+  standardize = FALSE,
+  cutOff = 0.5,
+  nfolds = 10,
+  ...
+)
 }
 \arguments{
 \item{data}{expression data with genes in rows and samples in columns.}

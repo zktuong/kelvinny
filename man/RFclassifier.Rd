@@ -4,8 +4,14 @@
 \alias{RFclassifier}
 \title{Random Forest Classifcation for single-cell expression data or just general matrix}
 \usage{
-RFclassifier(training, training.genes = NULL, training.classes = NULL,
-  verbose = TRUE, probability = FALSE, ...)
+RFclassifier(
+  training,
+  training.genes = NULL,
+  training.classes = NULL,
+  verbose = TRUE,
+  probability = FALSE,
+  ...
+)
 }
 \arguments{
 \item{training}{training expression matrix.}
