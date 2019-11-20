@@ -9,13 +9,13 @@ v2.0 - updated the functionality of the logistic regression functions, including
 ## Installation instructions
 You can install the package via ```devtools::install_github()``` function in R
 ```R
-library(devtools)
-devtools::install_github('zktuong/kelvinny', dependencies = TRUE)
-
-# one function requires SummarizedExperiment from bioconductor
+if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("SummarizedExperiment")
+
+BiocManager::install(c("SummarizedExperiment", "SingleCellExperiment"))
+devtools::install_github('zktuong/kelvinny', dependencies = TRUE)\
 ```
 ## Usage instructions
 ```R
