@@ -147,7 +147,7 @@ pred <- test_model_glmnet(model = model, new_data = newdat, type = "link")
 A cleaner version of above. Uses glmnet algorithm to predict similarity of cells to reference/training data.
 Can take expression matrix as well as Seurat or SummarizedExperiment objects.
 ```R
-### SummarizedExperiment object
+### SummarizedExperiment/SingleCellExperiment object
 model <- trainScSimilarity(train.sce, colData(train.sce)$CellType, test.sce, nfolds = dim(train.sce)[2])
 pred <- predScSimilarity(model, test.sce)
 ### Seurat v2 object
@@ -173,74 +173,3 @@ reads a .gmt file and automatically convert to a table, like a .gmx file
 ```R
 parse_gmt("file.gmt")
 ```
-
-### mtx_to_h5/mtx_to_h5totxt .... not working
-writes a matrix to .h5 format
-A complementary python module is also available to convert the .h5 file to txt
-```R
-mtx_to_h5(counts, "counts.h5")
-```
-and then in bash
-```bash
-pip install kelvinnypy 
-# or 
-conda install -c kt16 kelvinnypy
-
-# after installation
-h5totxt counts.h5
-```
-or if you want to convert to .h5 and .txt in a single function in R
-```R
-mtx_to_h5totxt(counts, "counts.h5")
-```
-### As a comparison
-```R
-norm_counts <- matrix(rexp(2e8, rate=.1), ncol=20000, dimnames = list(paste0("gene", 1:10000), paste0("cell", 1:20000)))
-dim(norm_counts)
-# [1] 10000 20000
-```
-### write to .txt file
-```R
-start <- Sys.time()
-write.table(norm_counts, "./norm_counts.txt", quote = FALSE, sep = "\t", row.names = TRUE)
-end <- Sys.time()
-end - start
-Time difference of 4.033704 mins
-```
-### write to .txt.gz file
-```R
-start <- Sys.time()
-write.table(norm_counts, gzfile("./norm_counts.txt.gz"), quote = FALSE, sep = "\t", row.names = TRUE)
-end <- Sys.time()
-end - start
-Time difference of 9.407493 mins
-```
-### write to .h5 file
-```R
-# library(kelvinny)
-# write to .h5 
-start <- Sys.time()
-mtx_to_h5(norm_counts, "norm_counts.h5")
-end <- Sys.time()
-end - start
-Time difference of 2.933439 mins
-```
-this file is compressed too. Can be used for transferring rather than transfer the .txt file, or gzipped .txt.gz file. 
-### convert .h5 file
-```bash
-time h5totxt norm_counts.h5
-real    2m46.901s
-user    2m40.488s
-sys     0m6.380s
-```
-
-### write to .h5 and convert to .txt 
-```R
-start <- Sys.time()
-mtx_to_h5totxt(norm_counts, "norm_counts.h5")
-end <- Sys.time()
-end - start
-Time difference of 5.651026 mins
-```
-
-I think ... you save a bit of time from the gzipping, transfer, and unzipping of the large .txt if you need to move them. But you could always move the .RDS to begin with... ¯\_(ツ)_/¯
