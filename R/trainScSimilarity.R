@@ -23,7 +23,7 @@
 #'      
             
 trainScSimilarity <- function(train_data, train_cell_type, test_data, train_genes = NULL, 
-    standardize = TRUE, nfolds = 10, a = 0.9, l.min = FALSE, multinomial = TRUE, 
+    standardize = TRUE, nfolds = 10, a = 0.9, l.min = FALSE, multinomial = FALSE, 
     nParallel = parallel::detectCores(), ...) {
     
     fit <- list()
