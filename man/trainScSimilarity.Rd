@@ -13,7 +13,7 @@ trainScSimilarity(
   nfolds = 10,
   a = 0.9,
   l.min = FALSE,
-  multinomial = TRUE,
+  multinomial = FALSE,
   nParallel = parallel::detectCores(),
   ...
 )
