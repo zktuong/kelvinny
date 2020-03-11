@@ -65,8 +65,9 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 })
             })
         } else {
-            train_dat <- train_data
+            train_dat <- as.matrix(train_data)
         }
+
 
         if (class(test_data) %in% c("SingleCellExperiment", "SummarizedExperiment")) {
             require(SummarizedExperiment)
@@ -80,7 +81,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 })
             })
         } else {
-            test_dat <- test_data
+            test_dat <- as.matrix(test_data)
         }
         cat(paste0("No pre-defined genes provided. Filtering ", crayon::red(dim(train_dat)[1]), " genes for training"), sep = "\n")
         
@@ -100,7 +101,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         if (class(train_dat) == "matrix") {
             train_dat <- Matrix::Matrix(train_dat, sparse = TRUE)
         }
-        train_dat <- t(train_dat)
+        train_dat <- Matrix::t(train_dat)
         
         
         if (standardize == TRUE) {
@@ -197,6 +198,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         } else {
             all_genes <- rownames(train_data)
             train_dat <- train_data[which(all_genes %in% train_genes), ]
+            train_dat <- as.matrix(train_dat)
         }
         cat(paste0("provided ", dim(train_dat)[1], " genes for training model"), sep = "\n")
 
@@ -212,7 +214,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
                 })
             })
         } else {
-            test_dat <- test_data
+            test_dat <- as.matrix(test_data)
         }
         
         genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
@@ -223,7 +225,7 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         if (class(train_dat) == "matrix") {
             train_dat <- Matrix::Matrix(train_dat, sparse = TRUE)
         }
-        train_dat <- t(train_dat)
+        train_dat <- Matrix::t(train_dat)
         
         if (standardize == TRUE) {
             cat("Standardizing training dataset", sep = "\n")
