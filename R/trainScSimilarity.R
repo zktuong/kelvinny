@@ -88,6 +88,12 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
         train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
 
+        cat("Transposing matrix", sep = "\n")
+        if (class(train_dat) == "matrix") {
+            train_dat <- Matrix::Matrix(train_dat, sparse = TRUE)
+        }
+        train_dat <- Matrix::t(train_dat)
+
         Zero_col <- which(Matrix::colSums(train_dat) == 0)
         duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
         if (length(c(Zero_col, duplicated_col)) != 0) {
@@ -96,13 +102,6 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }        
 
         cat(paste0("Submitting ", crayon::red(ncol(train_dat)), " intersecting genes to glmnet for selecting predictors"), sep = "\n")
-
-        cat("Transposing matrix", sep = "\n")
-        if (class(train_dat) == "matrix") {
-            train_dat <- Matrix::Matrix(train_dat, sparse = TRUE)
-        }
-        train_dat <- Matrix::t(train_dat)
-        
         
         if (standardize == TRUE) {
             cat("Standardizing training dataset", sep = "\n")
@@ -227,6 +226,13 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         train_dat <- Matrix::t(train_dat)
         
+        Zero_col <- which(Matrix::colSums(train_dat) == 0)
+        duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
+        if (length(c(Zero_col, duplicated_col)) != 0) {
+            cat(paste0("Removing ", crayon::red(length(c(Zero_col, duplicated_col))), " genes with no variance"), sep = "\n")
+            train_dat <- train_dat[, -c(Zero_col, duplicated_col)]
+        }        
+
         if (standardize == TRUE) {
             cat("Standardizing training dataset", sep = "\n")
             train_dat <- standardizeSparse(train_dat)
