@@ -85,17 +85,17 @@ trainScSimilarity <- function(train_data, train_cell_type, test_data, train_gene
         }
         cat(paste0("No pre-defined genes provided. Filtering ", crayon::red(dim(train_dat)[1]), " genes for training"), sep = "\n")
         
+        genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
+        train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
+
         Zero_col <- which(Matrix::colSums(train_dat) == 0)
         duplicated_col <- which(duplicated(colnames(train_dat)) == TRUE)
         if (length(c(Zero_col, duplicated_col)) != 0) {
             cat(paste0("Removing ", crayon::red(length(c(Zero_col, duplicated_col))), " genes with no variance"), sep = "\n")
             train_dat <- train_dat[, -c(Zero_col, duplicated_col)]
-        }
-        
-        genes.intersect <- intersect(row.names(test_dat), row.names(train_dat))
-        train_dat <- train_dat[which(row.names(train_dat) %in% genes.intersect), ]
+        }        
 
-        cat(paste0("Submitting ", crayon::red(length(genes.intersect)), " intersecting genes to glmnet for selecting predictors"), sep = "\n")
+        cat(paste0("Submitting ", crayon::red(ncol(train_dat)), " intersecting genes to glmnet for selecting predictors"), sep = "\n")
 
         cat("Transposing matrix", sep = "\n")
         if (class(train_dat) == "matrix") {
