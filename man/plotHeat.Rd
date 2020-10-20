@@ -8,6 +8,7 @@ plotHeat(
   d,
   color = "BluWhRd",
   scale = "row",
+  genes = NULL,
   n = 50,
   alpha = 1,
   begin = 0,
@@ -22,6 +23,7 @@ plotHeat(
   fontsize = 9,
   legend = TRUE,
   border_color = NA,
+  repel_degree = 0,
   ...
 )
 }
@@ -29,6 +31,8 @@ plotHeat(
 \item{color}{Default has "BluWhRd", "RdWhBlu", "viridis" or a string of the colours you want. e.g. c("blue","yellow","orange").}
 
 \item{scale}{Default is "row". Other options include "column" or "none". see ?pheatmap.}
+
+\item{genes}{if provided, will highlight the vector provided in the rows}
 
 \item{n}{see ?viridis}
 
@@ -57,6 +61,8 @@ plotHeat(
 \item{legend}{TRUE/FALSE. see ?pheatmap.}
 
 \item{border_color}{see ?pheatmap.}
+
+\item{repel_degree}{amount of repel for flag. Only used if genes is specified}
 
 \item{...}{Passes on arguments to pheatmap.}
 
