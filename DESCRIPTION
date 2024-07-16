@@ -9,7 +9,6 @@ Encoding: UTF-8
 Imports:
 	RColorBrewer,	
 	glmnet,
-	parallel,
 	pheatmap,
 	ranger,
 	viridisLite,
