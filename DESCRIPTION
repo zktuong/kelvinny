@@ -8,13 +8,9 @@ License: GPL-3
 Encoding: UTF-8
 Imports:
 	RColorBrewer,	
-	glmnet,
 	pheatmap,
-	ranger,
 	viridisLite,
 	devtools,
-	SummarizedExperiment,
-	SingleCellExperiment,
 	Matrix
 Suggests:
 	crayon,
@@ -23,6 +19,11 @@ Suggests:
 	covr,
 	dplyr,
 	Seurat,
-	Matrix
+	Matrix,
+	glmnet,
+        ranger,
+	doMC,
+	SummarizedExperiment,
+	SingleCellExperiment
 LazyData: true
 RoxygenNote: 7.1.0
